@@ -1,0 +1,196 @@
+@page "/"
+@inject IRiverSentryApiClient ApiClient
+
+<PageTitle>River Sentry - Flood Monitoring Network</PageTitle>
+
+<div class="page-container">
+    <!-- Mobile Logo -->
+    <div class="mobile-logo">
+        <img src="/_content/RiverSentry.UI.Shared/images/logotransparent.png" alt="River Sentry" />
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-left">
+            <div class="header-icon">
+                <i class="oi oi-dashboard"></i>
+            </div>
+            <h1 class="header-title">Flood Monitoring Network</h1>
+        </div>
+        <div class="header-actions">
+            <button class="btn-refresh" @onclick="LoadData" disabled="@_loading" title="Refresh">
+                @if (_loading)
+                {
+                    <span class="spinner"></span>
+                }
+                else
+                {
+                    <i class="oi oi-reload"></i>
+                }
+            </button>
+        </div>
+    </div>
+
+    <div class="page-scroll-content">
+        @if (_loading)
+        {
+            <div class="loading-container">
+                <div class="spinner-large"></div>
+                <p>Loading...</p>
+            </div>
+        }
+        else
+        {
+        <!-- Stats Badges (mobile) -->
+        <div class="stats-badges">
+            <span class="stat-badge"><strong>@_stats.TotalDevices</strong> Sensors</span>
+            <span class="stat-badge"><strong>@_stats.TotalFamilies</strong> Locations</span>
+            <span class="stat-badge accent"><strong>@_newDevices.Count</strong> New</span>
+        </div>
+
+        <!-- Stats Cards (desktop) -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-value">@_stats.TotalDevices</div>
+                <div class="stat-label">Sensors Installed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">@_stats.TotalFamilies</div>
+                <div class="stat-label">Locations</div>
+            </div>
+            <div class="stat-card highlight">
+                <div class="stat-value">@_newDevices.Count</div>
+                <div class="stat-label">New This Month</div>
+            </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="dashboard-grid">
+            <!-- New Installations -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="oi oi-plus"></i> New Installations
+                    </h2>
+                    <span class="card-badge">Last 90 Days</span>
+                </div>
+                <div class="card-content">
+                    @if (_newDevices.Any())
+                    {
+                        <div class="install-list">
+                            @foreach (var device in _newDevices.Take(5))
+                            {
+                                <div class="install-item">
+                                    <div class="install-icon">
+                                        <i class="oi oi-map-marker"></i>
+                                    </div>
+                                    <div class="install-info">
+                                        <span class="install-name">@device.LocationDescription</span>
+                                        <span class="install-family">@device.FamilyName</span>
+                                    </div>
+                                    <div class="install-date">
+                                        @device.InstalledDate?.ToString("MMM d")
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <p>No new installations this month</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Coverage by Location -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="oi oi-map"></i> Coverage by Location
+                    </h2>
+                    <span class="card-badge">@_families.Count Locations</span>
+                </div>
+                <div class="card-content">
+                    <div class="family-list">
+                        @foreach (var family in _families.Take(8))
+                        {
+                            <div class="family-item">
+                                <span class="family-name">@family.Name</span>
+                                <span class="family-count">@family.DeviceCount sensors</span>
+                            </div>
+                        }
+                    </div>
+                    @if (_families.Count > 8)
+                    {
+                        <a href="/locations" class="view-all-link">
+                            View all @_families.Count locations →
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <a href="/map" class="quick-action-btn">
+                <i class="oi oi-map"></i>
+                <span>View Map</span>
+            </a>
+            <a href="/alarms" class="quick-action-btn">
+                <i class="oi oi-bell"></i>
+                <span>Alarms</span>
+            </a>
+            <a href="/devices" class="quick-action-btn">
+                <i class="oi oi-pulse"></i>
+                <span>All Devices</span>
+            </a>
+        </div>
+        }
+    </div>
+</div>
+
+@code {
+    private DashboardStats _stats = new();
+    private List<DeviceDto> _newDevices = [];
+    private List<DeviceFamilyDto> _families = [];
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    public async Task LoadData()
+    {
+        try
+        {
+            _loading = true;
+
+            // Load stats
+            _stats = await ApiClient.GetDashboardStatsAsync();
+
+            // Load families
+            _families = (await ApiClient.GetDeviceFamiliesAsync())
+                .OrderByDescending(f => f.DeviceCount)
+                .ToList();
+
+            // Load devices and filter for new ones (last 90 days)
+            var devices = await ApiClient.GetDevicesAsync();
+            var ninetyDaysAgo = DateTime.UtcNow.AddDays(-90);
+            _newDevices = devices
+                .Where(d => d.InstalledDate >= ninetyDaysAgo)
+                .OrderByDescending(d => d.InstalledDate)
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading dashboard: {ex.Message}");
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}

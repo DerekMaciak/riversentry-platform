@@ -1,0 +1,377 @@
+/* ========================================
+   MAIN LAYOUT - NAV RAIL & HEADER STYLES
+   ======================================== */
+
+:root {
+    --nav-rail-width-expanded: 14rem;
+    --nav-rail-width-collapsed: 3.5rem;
+    --header-height: 60px;
+    --footer-height: 32px;
+    --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Main Layout Container */
+.main-layout-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: var(--bg-primary);
+}
+
+/* Lightning Background for Dark Mode - applied to content area so it's centered on content */
+.main-layout-container[data-theme="dark"] {
+    background: var(--bg-primary);
+}
+
+/* Main Body - Nav + Content side by side */
+.main-body {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* ========================================
+   APP HEADER
+   ======================================== */
+.app-header {
+    height: var(--header-height);
+    background: linear-gradient(135deg, var(--accent-primary) 0%, #1a5a8a 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1030;
+    flex-shrink: 0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.mobile-nav-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-nav-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.app-branding {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand-logo {
+    height: 40px;
+    width: auto;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.brand-subtitle {
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ef4444;
+}
+
+.status-dot.online {
+    background: #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 8px rgba(34, 197, 94, 0.6); }
+    50% { box-shadow: 0 0 12px rgba(34, 197, 94, 0.9); }
+}
+
+.theme-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================
+   NAV RAIL
+   ======================================== */
+.nav-rail {
+    width: var(--nav-rail-width-expanded);
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    transition: width var(--transition-base);
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-rail.collapsed {
+    width: var(--nav-rail-width-collapsed);
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0.5rem;
+    margin: 0;
+    flex: 1;
+}
+
+.nav-list li {
+    margin-bottom: 0.25rem;
+}
+
+.nav-rail-item {
+    display: flex;
+    align-items: center;
+    padding: 0.625rem 0.75rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 6px;
+    gap: 0.75rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.nav-rail-item .icon {
+    font-size: 1.1rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.nav-rail-item .text {
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity 0.2s ease;
+}
+
+.nav-rail-item:hover {
+    background: var(--bg-hover);
+    color: var(--accent-primary);
+}
+
+.nav-rail-item:hover .icon i {
+    color: var(--accent-primary);
+}
+
+/* Active state */
+::deep .nav-rail-item.active {
+    background: linear-gradient(135deg, rgba(74, 144, 217, 0.15) 0%, rgba(74, 144, 217, 0.08) 100%);
+    color: var(--accent-primary);
+    font-weight: 600;
+    border-left: 3px solid var(--accent-primary);
+}
+
+::deep .nav-rail-item.active .icon i {
+    color: var(--accent-primary);
+}
+
+/* Collapsed state */
+.nav-rail.collapsed .nav-rail-item {
+    justify-content: center;
+    padding: 0.75rem 0.5rem;
+}
+
+.nav-rail.collapsed .nav-rail-item .text {
+    display: none;
+}
+
+.nav-rail-footer {
+    padding: 0.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ========================================
+   CONTENT AREA
+   ======================================== */
+
+/* Main scroll container - pages handle their own scrolling */
+.content-area {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* No scroll here - pages scroll internally */
+    min-height: 0;
+    background: var(--bg-primary);
+}
+
+/* Dark mode: lightning background centered on content area */
+.main-layout-container[data-theme="dark"] .content-area {
+    background:
+        linear-gradient(rgba(13, 17, 23, 0.82), rgba(13, 17, 23, 0.88)),
+        url('/_content/RiverSentry.UI.Shared/images/lighteningbackground.png');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 0.5rem;
+}
+
+/* Page containers fill available space */
+.main-content > * {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.app-footer {
+    height: var(--footer-height);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    flex-shrink: 0;
+    color: var(--text-muted);
+}
+
+/* ========================================
+   MOBILE STYLES
+   ======================================== */
+@media (max-width: 767.98px) {
+    .nav-rail {
+        position: fixed;
+        left: 0;
+        top: var(--header-height);
+        height: calc(100vh - var(--header-height));
+        width: 260px;
+        z-index: 1000;
+        transform: translateX(-100%);
+        transition: transform var(--transition-base);
+        box-shadow: none;
+    }
+
+    .nav-rail.open {
+        transform: translateX(0);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .nav-rail-backdrop {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity var(--transition-base);
+    }
+
+    .nav-rail-backdrop.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .header-status {
+        display: none;
+    }
+
+    .brand-subtitle {
+        display: none;
+    }
+
+    .main-content {
+        padding: 0.75rem;
+    }
+}
+
+/* ========================================
+   BLAZOR ERROR UI
+   ======================================== */
+#blazor-error-ui {
+    background: var(--danger);
+    color: white;
+    bottom: 0;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.75rem 1.5rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+}
+
+#blazor-error-ui .reload {
+    color: white;
+    text-decoration: underline;
+}

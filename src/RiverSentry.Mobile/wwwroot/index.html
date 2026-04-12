@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>River Sentry</title>
+    <base href="/" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
+    <link rel="stylesheet" href="_content/RiverSentry.UI.Shared/css/riversentry-shared.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="RiverSentry.Mobile.styles.css" />
+    <link rel="icon" href="images/logo.png">
+</head>
+
+<body>
+
+    <div class="status-bar-safe-area"></div>
+
+    <div id="app">
+        <div style="display: flex; align-items: center; justify-content: center; height: 100vh; background: transparent;">
+            <img src="_content/RiverSentry.UI.Shared/images/shield.png" alt="Loading..." style="width: 45vw; max-width: 300px; opacity: 0.5;" />
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.webview.js" autostart="false"></script>
+    <script src="js/pull-to-refresh.js"></script>
+
+</body>
+
+</html>

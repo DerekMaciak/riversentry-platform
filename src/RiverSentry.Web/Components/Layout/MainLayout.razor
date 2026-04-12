@@ -1,0 +1,153 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
+
+<div class="main-layout-container" data-theme="@(_isDarkMode ? "dark" : "light")">
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="header-left">
+            <button class="mobile-nav-toggle d-md-none" @onclick="ToggleMobileNav" aria-label="Toggle navigation">
+                <i class="oi oi-menu"></i>
+            </button>
+            <div class="app-branding">
+                <img src="images/logotransparent.png" alt="River Sentry" class="brand-logo" />
+                <span class="brand-subtitle">Flood Monitoring Platform</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-status">
+                <span class="status-dot online"></span>
+                <span class="status-label">System Online</span>
+            </div>
+            <button class="theme-toggle-btn" @onclick="ToggleTheme" title="@(_isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode")">
+                <i class="oi @(_isDarkMode ? "oi-sun" : "oi-moon")"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content with Nav Rail -->
+    <div class="main-body">
+        <!-- Mobile Backdrop -->
+        @if (_isMobileNavOpen)
+        {
+            <div class="nav-rail-backdrop show" @onclick="ToggleMobileNav"></div>
+        }
+
+        <!-- Nav Rail -->
+        <nav class="nav-rail @(_isNavCollapsed ? "collapsed" : "") @(_isMobileNavOpen ? "open" : "")" role="navigation">
+            <ul class="nav-list">
+                <li>
+                    <NavLink href="" class="nav-rail-item" Match="NavLinkMatch.All" title="Dashboard">
+                        <span class="icon"><i class="oi oi-dashboard"></i></span>
+                        <span class="text">Dashboard</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink href="map" class="nav-rail-item" Match="NavLinkMatch.All" title="Map">
+                        <span class="icon"><i class="oi oi-map"></i></span>
+                        <span class="text">Map</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink href="devices" class="nav-rail-item" Match="NavLinkMatch.All" title="Devices">
+                        <span class="icon"><i class="oi oi-pulse"></i></span>
+                        <span class="text">Devices</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink href="alarms" class="nav-rail-item" Match="NavLinkMatch.All" title="Alarms">
+                        <span class="icon"><i class="oi oi-bell"></i></span>
+                        <span class="text">Alarms</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink href="locations" class="nav-rail-item" Match="NavLinkMatch.All" title="Locations">
+                        <span class="icon"><i class="oi oi-map-marker"></i></span>
+                        <span class="text">Locations</span>
+                    </NavLink>
+                </li>
+            </ul>
+            <!-- Collapse Toggle (desktop only) -->
+            <div class="nav-rail-footer d-none d-md-block">
+                <button class="nav-rail-item w-100 border-0 bg-transparent" @onclick="ToggleNavCollapse"
+                        title="@(_isNavCollapsed ? "Expand navigation" : "Collapse navigation")">
+                    <span class="icon">
+                        <i class="oi @(_isNavCollapsed ? "oi-chevron-right" : "oi-chevron-left")"></i>
+                    </span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Content Area -->
+        <div class="flex-grow-1 overflow-auto content-area" id="main-scroll-container">
+            <main class="main-content" id="main-content" role="main">
+                @Body
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <small>&copy; @DateTime.Now.Year River Sentry Platform</small>
+        <small>v1.0.0</small>
+    </footer>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    private bool _isDarkMode = true;
+    private bool _isNavCollapsed = false;
+    private bool _isMobileNavOpen = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Read both values from localStorage before triggering any re-render
+            var savedTheme = await JS.InvokeAsync<string>("localStorage.getItem", "rs-theme");
+            var savedNav = await JS.InvokeAsync<string>("localStorage.getItem", "rs-nav");
+
+            var needsUpdate = false;
+
+            if (!string.IsNullOrEmpty(savedTheme))
+            {
+                var wasDark = _isDarkMode;
+                _isDarkMode = savedTheme == "dark";
+                needsUpdate = _isDarkMode != wasDark;
+            }
+
+            if (!string.IsNullOrEmpty(savedNav))
+            {
+                var wasCollapsed = _isNavCollapsed;
+                _isNavCollapsed = savedNav == "collapsed";
+                needsUpdate = needsUpdate || _isNavCollapsed != wasCollapsed;
+            }
+
+            if (needsUpdate)
+            {
+                StateHasChanged();
+            }
+        }
+    }
+
+    private async Task ToggleTheme()
+    {
+        _isDarkMode = !_isDarkMode;
+        await JS.InvokeVoidAsync("localStorage.setItem", "rs-theme", _isDarkMode ? "dark" : "light");
+    }
+
+    private async Task ToggleNavCollapse()
+    {
+        _isNavCollapsed = !_isNavCollapsed;
+        await JS.InvokeVoidAsync("localStorage.setItem", "rs-nav", _isNavCollapsed ? "collapsed" : "expanded");
+    }
+
+    private void ToggleMobileNav()
+    {
+        _isMobileNavOpen = !_isMobileNavOpen;
+    }
+}

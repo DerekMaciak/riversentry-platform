@@ -1,0 +1,116 @@
+.alert-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.alert-loading,
+.alert-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    text-align: center;
+    color: var(--rs-text-secondary, #8b949e);
+}
+
+.alert-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.alert-empty h3 {
+    margin: 0;
+    color: var(--rs-success, #3fb950);
+}
+
+.alert-empty p {
+    margin: 0.5rem 0 0 0;
+}
+
+.alert-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.alert-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--rs-surface, #161b22);
+    border-radius: 8px;
+    border-left: 4px solid var(--rs-warning, #d29922);
+}
+
+.alert-item.alert-water {
+    border-left-color: var(--rs-danger, #f85149);
+    background-color: rgba(248, 81, 73, 0.1);
+}
+
+.alert-item.alert-upstream {
+    border-left-color: #ff6b6b;
+    background-color: rgba(255, 107, 107, 0.1);
+}
+
+.alert-item.alert-silent {
+    border-left-color: var(--rs-warning, #d29922);
+}
+
+.alert-item.alert-drill {
+    border-left-color: var(--rs-primary, #4A90D9);
+}
+
+.alert-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-content h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--rs-text, #f0f6fc);
+}
+
+.alert-type {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.85rem;
+    color: var(--rs-text-secondary, #8b949e);
+}
+
+.alert-time {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.75rem;
+    color: var(--rs-text-muted, #6e7681);
+}
+
+.alert-actions {
+    flex-shrink: 0;
+}
+
+.ack-btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--rs-primary, #4A90D9);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ack-btn:hover {
+    background-color: #58a6ff;
+}
+
+.ack-status {
+    font-size: 0.85rem;
+    color: var(--rs-success, #3fb950);
+}

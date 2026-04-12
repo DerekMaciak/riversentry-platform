@@ -1,0 +1,41 @@
+@inject IJSRuntime JS
+@implements IDisposable
+
+<div @ref="_container" class="mobile-scroll-wrapper">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public EventCallback OnRefresh { get; set; }
+
+    private ElementReference _container;
+    private DotNetObjectReference<PullToRefresh>? _dotNetRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _dotNetRef = DotNetObjectReference.Create(this);
+            try
+            {
+                await JS.InvokeVoidAsync("initPullToRefresh", _container, _dotNetRef);
+            }
+            catch
+            {
+                // JS not available (web) - ignore
+            }
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnPullRefresh()
+    {
+        await OnRefresh.InvokeAsync();
+    }
+
+    public void Dispose()
+    {
+        _dotNetRef?.Dispose();
+    }
+}

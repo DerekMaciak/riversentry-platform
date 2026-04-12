@@ -1,0 +1,150 @@
+@page "/devices"
+@inject IRiverSentryApiClient ApiClient
+@inject NavigationManager Nav
+
+<PageTitle>Devices - River Sentry</PageTitle>
+
+<div class="page-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-left">
+            <div class="header-icon">
+                <i class="oi oi-wifi"></i>
+            </div>
+            <h1 class="header-title">Devices</h1>
+            <span class="header-badge">@_devices.Count</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn-refresh" @onclick="LoadDevices" disabled="@_loading" title="Refresh">
+                @if (_loading)
+                {
+                    <span class="spinner"></span>
+                }
+                else
+                {
+                    <i class="oi oi-reload"></i>
+                }
+            </button>
+        </div>
+    </div>
+
+    <div class="page-scroll-content">
+        @if (_loading && _devices.Count == 0)
+        {
+            <div class="loading-container">
+                <div class="spinner-large"></div>
+                <p>Loading...</p>
+            </div>
+        }
+        else if (_error != null)
+        {
+            <div class="rs-card error-card">
+                <i class="oi oi-warning"></i>
+                <p>@_error</p>
+                <button class="rs-btn rs-btn-primary" @onclick="LoadDevices">Retry</button>
+            </div>
+        }
+        else
+        {
+            @foreach (var family in GetGroupedDevices())
+            {
+                <div class="family-separator">
+                    <div class="family-separator-line"></div>
+                    <span class="family-separator-name">
+                        <i class="oi oi-map-marker"></i> @family.Key
+                        <span class="family-device-count">(@family.Count() device@(family.Count() == 1 ? "" : "s"))</span>
+                        @{
+                            var offlineCount = family.Count() - family.Count(d => d.IsOnline);
+                        }
+                        @if (offlineCount > 0)
+                        {
+                            <span class="family-status-badge offline">@offlineCount offline</span>
+                        }
+                    </span>
+                    <div class="family-separator-line"></div>
+                </div>
+                <div class="device-grid">
+                    @foreach (var device in family)
+                    {
+                        <div class="device-card @(device.IsOnline ? "" : "offline")" @onclick="() => SelectDevice(device.Id)" style="cursor: pointer;">
+                            <div class="device-card-content">
+                                <div class="device-image">
+                                    <img src="images/device.png" alt="Device" />
+                                </div>
+                                <div class="device-info">
+                                    <h3 class="device-name">@device.Name</h3>
+                                    @if (!string.IsNullOrEmpty(device.ProductTypeName))
+                                    {
+                                        <div class="device-type">@device.ProductTypeName</div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(device.LocationDescription))
+                                    {
+                                        <div class="device-description">@device.LocationDescription</div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(device.FirmwareVersion))
+                                    {
+                                        <div class="device-meta">FW: @device.FirmwareVersion</div>
+                                    }
+                                </div>
+                                <span class="status-dot @(device.IsOnline ? "online" : "offline")"></span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback<Guid> OnDeviceSelected { get; set; }
+
+    private List<DeviceDto> _devices = [];
+    private bool _loading = true;
+    private string? _error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDevices();
+    }
+
+    public async Task LoadData() => await LoadDevices();
+
+    private async Task SelectDevice(Guid deviceId)
+    {
+        if (OnDeviceSelected.HasDelegate)
+        {
+            await OnDeviceSelected.InvokeAsync(deviceId);
+        }
+        else
+        {
+            Nav.NavigateTo($"/device/{deviceId}");
+        }
+    }
+
+    private async Task LoadDevices()
+    {
+        try
+        {
+            _loading = true;
+            _error = null;
+            _devices = (await ApiClient.GetDevicesAsync()).ToList();
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private IEnumerable<IGrouping<string, DeviceDto>> GetGroupedDevices()
+    {
+        return _devices
+            .OrderBy(d => d.FamilyName)
+            .ThenBy(d => d.Name)
+            .GroupBy(d => d.FamilyName ?? "Unknown");
+    }
+}

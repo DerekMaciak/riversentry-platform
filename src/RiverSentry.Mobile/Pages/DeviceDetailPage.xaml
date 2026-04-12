@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:RiverSentry.Mobile.Components"
+             x:Class="RiverSentry.Mobile.Pages.DeviceDetailPage"
+             Title="Device Details"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#0d1117">
+
+    <Grid>
+        <BlazorWebView HostPage="wwwroot/index.html">
+            <BlazorWebView.RootComponents>
+                <RootComponent Selector="#app" ComponentType="{x:Type components:DeviceDetailRoutes}" />
+            </BlazorWebView.RootComponents>
+        </BlazorWebView>
+
+        <!-- Close button overlay -->
+        <Border VerticalOptions="Start"
+                HorizontalOptions="Start"
+                Margin="16,16,0,0"
+                WidthRequest="36"
+                HeightRequest="36"
+                StrokeShape="RoundRectangle 18"
+                BackgroundColor="#30363d"
+                Stroke="Transparent">
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseTapped"/>
+            </Border.GestureRecognizers>
+            <Label Text="✕"
+                   FontSize="16"
+                   TextColor="#f0f6fc"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+        </Border>
+    </Grid>
+
+</ContentPage>

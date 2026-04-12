@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d1117" />
+    <base href="/" />
+    <title>River Sentry Platform</title>
+
+    <!-- Open Iconic Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
+
+    <!-- Leaflet CSS for maps (local) -->
+    <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
+
+    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["_content/RiverSentry.UI.Shared/css/riversentry-shared.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["RiverSentry.Web.styles.css"]" />
+    <ImportMap />
+    <link rel="icon" type="image/png" href="images/shield.png" />
+    <HeadOutlet />
+    <script>
+        // Apply saved theme before page renders to prevent flash
+        (function() {
+            var theme = localStorage.getItem('rs-theme');
+            if (theme === 'light') {
+                document.documentElement.style.backgroundColor = '#ffffff';
+            } else {
+                document.documentElement.style.backgroundColor = '#0d1117';
+            }
+        })();
+    </script>
+</head>
+
+<body>
+    <Routes />
+
+    <!-- Leaflet JS for maps (local) -->
+    <script src="lib/leaflet/leaflet.js"></script>
+
+    <script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>

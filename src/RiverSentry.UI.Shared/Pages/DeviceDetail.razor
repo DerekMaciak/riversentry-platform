@@ -1,0 +1,217 @@
+@page "/device/{DeviceId:guid}"
+@inject IRiverSentryApiClient ApiClient
+
+<PageTitle>@(_device?.Name ?? "Device") - River Sentry</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <div class="header-left">
+            <a href="/devices" class="back-link"><i class="oi oi-arrow-left"></i></a>
+            <h1 class="header-title">@(_device?.Name ?? "Device Details")</h1>
+        </div>
+    </div>
+
+    <div class="page-scroll-content">
+        @if (_loading)
+        {
+            <div class="loading-container">
+                <div class="spinner-large"></div>
+                <p>Loading...</p>
+            </div>
+        }
+        else if (_device == null)
+        {
+            <div class="error-container">
+                <i class="oi oi-warning"></i>
+                <p>Device not found</p>
+                <a href="/devices" class="btn-retry">Back to Devices</a>
+            </div>
+        }
+        else
+        {
+            <!-- Status Badge -->
+            <div class="detail-status">
+                <span class="status-badge @GetStateClass()">@GetStateText()</span>
+            </div>
+
+            <!-- Device Info -->
+            <div class="detail-section">
+                <h3 class="section-title">Device Info</h3>
+                <div class="detail-card">
+                    <div class="detail-row">
+                        <span class="detail-label">Name</span>
+                        <span class="detail-value">@_device.Name</span>
+                    </div>
+                    @if (!string.IsNullOrEmpty(_device.ProductTypeName))
+                    {
+                        <div class="detail-row">
+                            <span class="detail-label">Type</span>
+                            <span class="detail-value">@_device.ProductTypeName</span>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(_device.FamilyName))
+                    {
+                        <div class="detail-row">
+                            <span class="detail-label">Family</span>
+                            <span class="detail-value">@_device.FamilyName</span>
+                        </div>
+                    }
+                    @if (_device.LastStatusAt.HasValue)
+                    {
+                        <div class="detail-row">
+                            <span class="detail-label">Last Update</span>
+                            <span class="detail-value">@FormatTime(_device.LastStatusAt.Value)</span>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(_device.FirmwareVersion))
+                    {
+                        <div class="detail-row">
+                            <span class="detail-label">Firmware</span>
+                            <span class="detail-value">@_device.FirmwareVersion</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Location -->
+            <div class="detail-section">
+                <h3 class="section-title">Location</h3>
+                <div class="detail-card">
+                    @if (!string.IsNullOrEmpty(_device.LocationDescription))
+                    {
+                        <div class="detail-row">
+                            <span class="detail-label">Description</span>
+                            <span class="detail-value">@_device.LocationDescription</span>
+                        </div>
+                    }
+                    <div class="detail-row">
+                        <span class="detail-label">Latitude</span>
+                        <span class="detail-value">@_device.Latitude.ToString("F6")</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Longitude</span>
+                        <span class="detail-value">@_device.Longitude.ToString("F6")</span>
+                    </div>
+                    @if (_device.Altitude.HasValue)
+                    {
+                        <div class="detail-row">
+                            <span class="detail-label">Altitude</span>
+                            <span class="detail-value">@_device.Altitude.Value.ToString("F0")m</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Sensors (if status available) -->
+            @if (_status != null)
+            {
+                <div class="detail-section">
+                    <h3 class="section-title">Sensors</h3>
+                    <div class="detail-card">
+                        <div class="detail-row">
+                            <span class="detail-label">Water Witch 1</span>
+                            <span class="detail-value @(_status.WaterWitch1 ? "alarm" : "ok")">
+                                @(_status.WaterWitch1 ? "Triggered" : "Clear")
+                            </span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Water Witch 2</span>
+                            <span class="detail-value @(_status.WaterWitch2 ? "alarm" : "ok")">
+                                @(_status.WaterWitch2 ? "Triggered" : "Clear")
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="section-title">Power</h3>
+                    <div class="detail-card">
+                        <div class="detail-row">
+                            <span class="detail-label">Main Voltage</span>
+                            <span class="detail-value">@_status.MainVolts.ToString("F1")V</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Battery</span>
+                            <span class="detail-value">@_status.BatteryVolts.ToString("F2")V</span>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(_device.Notes))
+            {
+                <div class="detail-section">
+                    <h3 class="section-title">Notes</h3>
+                    <div class="detail-card">
+                        <p class="detail-notes">@_device.Notes</p>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public Guid DeviceId { get; set; }
+
+    private DeviceDto? _device;
+    private DeviceStatusDto? _status;
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    public async Task LoadData()
+    {
+        try
+        {
+            _loading = true;
+            _device = await ApiClient.GetDeviceAsync(DeviceId);
+            if (_device != null)
+            {
+                _status = await ApiClient.GetDeviceStatusAsync(DeviceId);
+            }
+        }
+        catch (Exception)
+        {
+            _device = null;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private string GetStateClass() => _device?.State switch
+    {
+        DeviceState.Armed => "armed",
+        DeviceState.AlarmWater or DeviceState.AlarmUpstream => "alarm",
+        DeviceState.AlarmSilent => "silent",
+        DeviceState.AlarmDrill => "drill",
+        DeviceState.Offline => "offline",
+        _ => "unknown"
+    };
+
+    private string GetStateText() => _device?.State switch
+    {
+        DeviceState.Armed => "Armed",
+        DeviceState.AlarmWater => "Water Alarm",
+        DeviceState.AlarmUpstream => "Upstream Alarm",
+        DeviceState.AlarmSilent => "Silent Alarm",
+        DeviceState.AlarmDrill => "Drill / Test",
+        DeviceState.Offline => "Offline",
+        _ => "Unknown"
+    };
+
+    private string FormatTime(DateTime dt)
+    {
+        var diff = DateTime.UtcNow - dt;
+        if (diff.TotalMinutes < 1) return "Just now";
+        if (diff.TotalMinutes < 60) return $"{(int)diff.TotalMinutes}m ago";
+        if (diff.TotalHours < 24) return $"{(int)diff.TotalHours}h ago";
+        if (diff.TotalDays < 7) return $"{(int)diff.TotalDays}d ago";
+        return dt.ToString("MMM d, yyyy h:mm tt");
+    }
+}

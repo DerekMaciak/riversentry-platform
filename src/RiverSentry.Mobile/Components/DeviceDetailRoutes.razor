@@ -1,0 +1,11 @@
+@using RiverSentry.UI.Shared.Components
+@using RiverSentry.Mobile.Pages
+
+<PullToRefresh OnRefresh="Refresh">
+    <RiverSentry.UI.Shared.Pages.DeviceDetail @ref="_page" DeviceId="DeviceDetailPage.CurrentDeviceId" />
+</PullToRefresh>
+
+@code {
+    private RiverSentry.UI.Shared.Pages.DeviceDetail? _page;
+    private async Task Refresh() { if (_page != null) await _page.LoadData(); }
+}

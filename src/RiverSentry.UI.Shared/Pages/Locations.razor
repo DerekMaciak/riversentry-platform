@@ -1,0 +1,168 @@
+@page "/locations"
+@inject IRiverSentryApiClient ApiClient
+
+<PageTitle>Locations - River Sentry</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <div class="header-left">
+            <div class="header-icon">
+                <i class="oi oi-map-marker"></i>
+            </div>
+            <h1 class="header-title">Locations</h1>
+            <span class="header-badge">@_locations.Count</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn-refresh" @onclick="LoadData" disabled="@_loading" title="Refresh">
+                @if (_loading)
+                {
+                    <span class="spinner"></span>
+                }
+                else
+                {
+                    <i class="oi oi-reload"></i>
+                }
+            </button>
+        </div>
+    </div>
+
+    <div class="page-scroll-content">
+        @if (_loading && _locations.Count == 0)
+        {
+            <div class="loading-container">
+                <div class="spinner-large"></div>
+                <p>Loading...</p>
+            </div>
+        }
+        else if (_error != null)
+        {
+            <div class="error-container">
+                <i class="oi oi-warning"></i>
+                <p>@_error</p>
+                <button class="btn-retry" @onclick="LoadData">Retry</button>
+            </div>
+        }
+        else
+        {
+            <div class="locations-grid">
+                @foreach (var location in _locations)
+                {
+                    <div class="location-card" @onclick="() => ToggleExpand(location.Id)">
+                        <div class="location-card-top">
+                            <div class="location-logo">
+                                @if (!string.IsNullOrEmpty(location.LogoUrl))
+                                {
+                                    <img src="@location.LogoUrl" alt="@location.Name" />
+                                }
+                                else
+                                {
+                                    <div class="logo-placeholder">
+                                        <i class="oi oi-map-marker"></i>
+                                    </div>
+                                }
+                            </div>
+                            <div class="location-info">
+                                <h3 class="location-name">@location.Name</h3>
+                                @if (!string.IsNullOrEmpty(location.Description))
+                                {
+                                    <p class="location-description">@location.Description</p>
+                                }
+                                <div class="location-stats">
+                                    <span class="device-count">
+                                        <i class="oi oi-pulse"></i> @location.DeviceCount sensors
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(location.WebsiteUrl) || !string.IsNullOrEmpty(location.Address))
+                        {
+                            <div class="location-details">
+                                @if (!string.IsNullOrEmpty(location.Address))
+                                {
+                                    <div class="detail-item">
+                                        <i class="oi oi-map-marker"></i>
+                                        <span>@location.Address</span>
+                                    </div>
+                                }
+                                @if (!string.IsNullOrEmpty(location.WebsiteUrl))
+                                {
+                                    <div class="detail-item">
+                                        <i class="oi oi-globe"></i>
+                                        <a href="@location.WebsiteUrl" target="_blank" @onclick:stopPropagation>@location.WebsiteUrl</a>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                        @if (_expandedId == location.Id)
+                        {
+                            <div class="location-devices">
+                                <div class="devices-header">
+                                    <span>Devices at this location</span>
+                                </div>
+                                @{
+                                    var devices = _devices.Where(d => d.FamilyName == location.Name).ToList();
+                                }
+                                @foreach (var device in devices)
+                                {
+                                    <div class="device-row">
+                                        <span class="device-name">@device.Name</span>
+                                        @if (!string.IsNullOrEmpty(device.LocationDescription))
+                                        {
+                                            <span class="device-desc">@device.LocationDescription</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                        <div class="expand-hint">
+                            <i class="oi @(_expandedId == location.Id ? "oi-chevron-top" : "oi-chevron-bottom")"></i>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+
+@code {
+    private List<DeviceFamilyDto> _locations = [];
+    private List<DeviceDto> _devices = [];
+    private bool _loading = true;
+    private string? _error;
+    private Guid? _expandedId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    public async Task LoadData()
+    {
+        try
+        {
+            _loading = true;
+            _error = null;
+            _locations = (await ApiClient.GetDeviceFamiliesAsync())
+                .OrderBy(f => f.Name)
+                .ToList();
+            _devices = (await ApiClient.GetDevicesAsync()).ToList();
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private void ToggleExpand(Guid id)
+    {
+        _expandedId = _expandedId == id ? null : id;
+    }
+}

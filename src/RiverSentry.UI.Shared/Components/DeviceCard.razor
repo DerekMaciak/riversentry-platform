@@ -1,0 +1,46 @@
+<div class="device-card @(Device.IsAlarming ? "alarming" : "") @(Device.IsOnline ? "" : "offline")">
+    <div class="device-card-header">
+        <h3>@Device.Name</h3>
+        <span class="device-state @Device.State.ToString().ToLowerInvariant()">@FormatState(Device.State)</span>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Device.ProductTypeCode))
+    {
+        <p class="device-product">@Device.ProductTypeCode</p>
+    }
+
+    @if (!string.IsNullOrEmpty(Device.FamilyName))
+    {
+        <p class="device-family">@Device.FamilyName</p>
+    }
+
+    @if (!string.IsNullOrEmpty(Device.LocationDescription))
+    {
+        <p class="device-description">@Device.LocationDescription</p>
+    }
+
+    <div class="device-card-footer">
+        <span class="device-status @(Device.IsOnline ? "online" : "offline")">
+            @(Device.IsOnline ? "Online" : "Offline")
+        </span>
+        @if (Device.LastStatusAt.HasValue)
+        {
+            <span class="device-updated">@Device.LastStatusAt.Value.ToString("g")</span>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public DeviceDto Device { get; set; } = default!;
+
+    private static string FormatState(DeviceState state) => state switch
+    {
+        DeviceState.Armed => "Armed",
+        DeviceState.AlarmWater => "Water Alarm",
+        DeviceState.AlarmUpstream => "Upstream Alarm",
+        DeviceState.AlarmSilent => "Silent Alarm",
+        DeviceState.AlarmDrill => "Drill",
+        DeviceState.Offline => "Offline",
+        _ => "Unknown"
+    };
+}

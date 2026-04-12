@@ -1,0 +1,116 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+
+# .NET
+*.dll
+*.exe
+*.pdb
+*.mdb
+
+# MAUI / Android
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# MAUI / iOS
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# MAUI / Windows
+*.msix
+*.msixbundle
+*.appx
+*.appxbundle
+*.appxupload
+
+# Test Results
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Files built by Visual Studio
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# OS generated
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backup & temp files
+*~
+*.bak
+*.swp
+
+# Secrets
+*.pfx
+appsettings.*.json
+!appsettings.Development.json
+secrets.json
+
+# Publish output
+publish/

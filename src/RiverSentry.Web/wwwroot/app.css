@@ -1,0 +1,254 @@
+/* River Sentry Web Application Styles */
+
+/* Base Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Lightning Background for Dark Mode - centered on content area */
+[data-theme="dark"].main-layout-container .content-area,
+.main-layout-container[data-theme="dark"] .content-area {
+    background:
+        linear-gradient(rgba(13, 17, 23, 0.82), rgba(13, 17, 23, 0.88)),
+        url('/_content/RiverSentry.UI.Shared/images/lighteningbackground.png') !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-attachment: scroll !important;
+    background-repeat: no-repeat !important;
+}
+
+/* Light Mode: Content Page Headers */
+[data-theme="light"] .page-header {
+    background: linear-gradient(135deg, #e8f0fe 0%, #d4e4f7 50%, #c7ddf2 100%) !important;
+    border: 1px solid #b8d4ed !important;
+    box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+
+[data-theme="light"] .page-header .header-title {
+    color: #1E3A5F !important;
+    text-shadow: none !important;
+}
+
+[data-theme="light"] .page-header .header-icon {
+    background: linear-gradient(135deg, #4A90D9 0%, #3a7bc8 100%) !important;
+    color: white !important;
+}
+
+[data-theme="light"] .page-header .btn-refresh {
+    background: rgba(30, 58, 95, 0.08) !important;
+    border: 1px solid rgba(30, 58, 95, 0.15) !important;
+    color: #4A90D9 !important;
+}
+
+[data-theme="light"] .page-header .btn-refresh:hover {
+    background: rgba(74, 144, 217, 0.15) !important;
+    border-color: rgba(74, 144, 217, 0.3) !important;
+}
+
+[data-theme="light"] .page-header .header-badge {
+    background: rgba(30, 58, 95, 0.12) !important;
+    color: #1E3A5F !important;
+}
+
+[data-theme="light"] .page-header::before {
+    background: linear-gradient(180deg, #4A90D9 0%, #3a7bc8 50%, #2d6aaa 100%) !important;
+}
+
+/* Remove default margins */
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0 0 1rem 0;
+}
+
+/* Focus styles */
+h1:focus {
+    outline: none;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #4A90D9;
+}
+
+/* Form validation */
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #3fb950;
+}
+
+.invalid {
+    outline: 1px solid #f85149;
+}
+
+.validation-message {
+    color: #f85149;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Error boundary */
+.blazor-error-boundary {
+    background: #f85149;
+    padding: 1rem 1rem 1rem 3.7rem;
+    color: white;
+}
+
+.blazor-error-boundary::after {
+    content: "An error has occurred.";
+}
+
+/* Card Component */
+.rs-card {
+    background: var(--bg-secondary, #161b22);
+    border: 1px solid var(--border-color, #30363d);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.rs-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color, #30363d);
+}
+
+.rs-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Button Styles */
+.rs-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.rs-btn-primary {
+    background-color: #4A90D9;
+    color: white;
+}
+
+.rs-btn-primary:hover {
+    background-color: #58a6ff;
+}
+
+.rs-btn-secondary {
+    background-color: var(--bg-tertiary, #21262d);
+    color: var(--text-primary, #f0f6fc);
+    border: 1px solid var(--border-color, #30363d);
+}
+
+.rs-btn-secondary:hover {
+    background-color: var(--bg-hover, #30363d);
+}
+
+.rs-btn-danger {
+    background-color: #f85149;
+    color: white;
+}
+
+.rs-btn-danger:hover {
+    background-color: #ff6b61;
+}
+
+.rs-btn-success {
+    background-color: #3fb950;
+    color: white;
+}
+
+.rs-btn-success:hover {
+    background-color: #56d364;
+}
+
+/* Table Styles */
+.rs-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rs-table th,
+.rs-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color, #30363d);
+}
+
+.rs-table th {
+    font-weight: 600;
+    color: var(--text-secondary, #8b949e);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.rs-table tr:hover {
+    background-color: var(--bg-hover, #30363d);
+}
+
+/* Status Badges */
+.rs-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.rs-badge-success {
+    background-color: rgba(63, 185, 80, 0.2);
+    color: #3fb950;
+}
+
+.rs-badge-warning {
+    background-color: rgba(210, 153, 34, 0.2);
+    color: #d29922;
+}
+
+.rs-badge-danger {
+    background-color: rgba(248, 81, 73, 0.2);
+    color: #f85149;
+}
+
+.rs-badge-info {
+    background-color: rgba(74, 144, 217, 0.2);
+    color: #4A90D9;
+}
+
+/* Grid Layout */
+.rs-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.rs-grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.rs-grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.rs-grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}

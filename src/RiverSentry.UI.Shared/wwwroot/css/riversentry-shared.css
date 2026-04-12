@@ -1,0 +1,780 @@
+/* River Sentry Shared Component Styles */
+/* Brand colors from riversentry-controller */
+
+:root {
+    /* Primary Colors */
+    --rs-primary: #58a6ff;
+    --rs-primary-dark: #30363d;
+    --rs-primary-light: #8b949e;
+
+    /* Secondary Colors */
+    --rs-secondary: #8B1A1A;
+    --rs-secondary-light: #A52A2A;
+
+    /* Accent */
+    --rs-accent: #58a6ff;
+    --rs-tertiary: #f85149;
+
+    /* Backgrounds */
+    --rs-background: #0d1117;
+    --rs-surface: #161b22;
+
+    /* State Colors */
+    --rs-armed: #3fb950;
+    --rs-disarmed: #6e7681;
+    --rs-alarming: #f85149;
+    --rs-fault: #d29922;
+    --rs-offline: #6e7681;
+
+    /* Text */
+    --rs-text: #f0f6fc;
+    --rs-text-muted: #8b949e;
+    --rs-text-dark: #0d1117;
+
+    /* Semantic */
+    --rs-success: #3fb950;
+    --rs-warning: #d29922;
+    --rs-danger: #f85149;
+
+    /* ===== Theme Variables (Dark Mode Default) ===== */
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+    --bg-hover: #30363d;
+    --text-primary: #f0f6fc;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --border-color: #30363d;
+    --accent-primary: #58a6ff;
+    --accent-secondary: #79c0ff;
+    --accent-hover: #79c0ff;
+    --success: #3fb950;
+    --warning: #d29922;
+    --danger: #f85149;
+    --shadow: rgba(0, 0, 0, 0.4);
+
+    /* Nav Rail Sizes */
+    --nav-rail-width-expanded: 14rem;
+    --nav-rail-width-collapsed: 3.5rem;
+    --header-height: 60px;
+    --footer-height: 32px;
+    --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light Mode */
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f6f8fa;
+    --bg-tertiary: #eaeef2;
+    --bg-hover: #d0d7de;
+    --text-primary: #1f2328;
+    --text-secondary: #57606a;
+    --text-muted: #8c959f;
+    --border-color: #d0d7de;
+    --accent-primary: #1E3A5F;
+    --accent-secondary: #4A90D9;
+    --accent-hover: #0969da;
+    --success: #1a7f37;
+    --warning: #9a6700;
+    --danger: #cf222e;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Base styles */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+    overflow: hidden; /* Prevent browser scrollbar - content area scrolls instead */
+}
+
+html {
+    height: 100%;
+}
+
+/* ==============================================
+   MODERN SCROLLBAR STYLING
+   ============================================== */
+
+/* WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-muted) transparent;
+}
+
+/* Mobile: even thinner scrollbars */
+@media (max-width: 767.98px) {
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+}
+
+/* Background with lightning image */
+.rs-background {
+    background-image: url('../images/lighteningbackground.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.rs-background-overlay {
+    background: rgba(26, 26, 46, 0.85);
+    min-height: 100vh;
+}
+
+/* Lightning Background for Main Layout (Dark Mode) */
+.lightning-bg {
+    position: relative;
+    background:
+        linear-gradient(rgba(13, 17, 23, 0.82), rgba(13, 17, 23, 0.88)),
+        url('/_content/RiverSentry.UI.Shared/images/lighteningbackground.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+}
+
+/* Header with logo */
+.rs-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: var(--rs-surface);
+    border-bottom: 1px solid var(--rs-primary-dark);
+}
+
+.rs-logo {
+    height: 40px;
+    margin-right: 1rem;
+}
+
+.rs-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--rs-primary-light);
+}
+
+/* Device Map */
+.device-map-container {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.map-canvas {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    min-height: 0;
+}
+.map-loading, .map-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    color: var(--rs-text-muted);
+    background: var(--rs-surface);
+    border-radius: 12px;
+}
+
+/* Device Card */
+.device-card {
+    background: var(--rs-surface);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--rs-text);
+    border: 1px solid var(--rs-primary-dark);
+    transition: all 0.2s ease;
+}
+
+.device-card:hover {
+    border-color: var(--rs-primary);
+    box-shadow: 0 4px 12px rgba(74, 144, 217, 0.2);
+}
+
+.device-card.alarming {
+    border-left: 4px solid var(--rs-alarming);
+    animation: pulse-alarm 1.5s infinite;
+}
+
+.device-card.offline { opacity: 0.6; }
+
+.device-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.device-card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--rs-primary-light);
+}
+
+.device-state {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.device-state.armed { background: var(--rs-armed); color: white; }
+.device-state.alarmwater, .device-state.alarmupstream { background: var(--rs-alarming); color: white; }
+.device-state.alarmsilent { background: var(--rs-warning); color: var(--rs-text-dark); }
+.device-state.alarmdrill { background: var(--rs-warning); color: var(--rs-text-dark); }
+.device-state.offline { background: var(--rs-offline); color: white; }
+.device-state.unknown { background: var(--rs-disarmed); color: white; }
+
+.device-product {
+    font-size: 0.75rem;
+    color: var(--rs-accent);
+    margin: 0.25rem 0;
+    font-weight: 600;
+}
+
+.device-family {
+    font-size: 0.85rem;
+    color: var(--rs-text-muted);
+    margin: 0.25rem 0;
+}
+
+.device-description {
+    font-size: 0.85rem;
+    margin: 0.25rem 0;
+}
+
+.device-card-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--rs-primary-dark);
+    font-size: 0.8rem;
+}
+
+.device-status.online { color: var(--rs-success); }
+.device-status.offline { color: var(--rs-offline); }
+.device-updated { color: var(--rs-text-muted); }
+
+/* Alarm pulse animation */
+@keyframes pulse-alarm {
+    0%, 100% { box-shadow: 0 0 5px var(--rs-alarming); }
+    50% { box-shadow: 0 0 20px var(--rs-alarming), 0 0 30px var(--rs-alarming); }
+}
+
+/* Buttons */
+.rs-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.rs-btn-primary {
+    background: var(--rs-primary);
+    color: white;
+}
+
+.rs-btn-primary:hover {
+    background: var(--rs-primary-light);
+    color: var(--rs-text-dark);
+}
+
+.rs-btn-danger {
+    background: var(--rs-danger);
+    color: white;
+}
+
+.rs-btn-danger:hover {
+    background: #ff5252;
+}
+
+.rs-btn-success {
+    background: var(--rs-success);
+    color: white;
+}
+
+.rs-btn-outline {
+    background: transparent;
+    border: 2px solid var(--rs-primary);
+    color: var(--rs-primary);
+}
+
+.rs-btn-outline:hover {
+    background: var(--rs-primary);
+    color: white;
+}
+
+/* Alarm Player */
+.alarm-player {
+    padding: 1rem;
+    background: var(--rs-surface);
+    border-radius: 12px;
+}
+
+.alarm-description {
+    color: var(--rs-text-muted);
+    margin-bottom: 1rem;
+}
+
+.alarm-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.alarm-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+}
+
+.alarm-btn-warning { background: var(--rs-warning); color: var(--rs-text-dark); }
+.alarm-btn-critical { background: var(--rs-danger); }
+.alarm-btn-stop { background: var(--rs-surface); border: 2px solid var(--rs-primary); }
+
+.alarm-btn.active {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
+.alarm-icon { font-size: 1.5rem; }
+.alarm-playing { margin-left: auto; font-size: 0.85rem; opacity: 0.8; }
+
+/* Navigation */
+.rs-nav {
+    display: flex;
+    background: var(--rs-surface);
+    border-top: 1px solid var(--rs-primary-dark);
+    padding: 0.5rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.rs-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    color: var(--rs-text-muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition: color 0.2s;
+}
+
+.rs-nav-item:hover,
+.rs-nav-item.active {
+    color: var(--rs-accent);
+}
+
+.rs-nav-item img {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 0.25rem;
+    filter: grayscale(100%) brightness(0.7);
+    transition: filter 0.2s;
+}
+
+.rs-nav-item:hover img,
+.rs-nav-item.active img {
+    filter: none;
+}
+
+/* Page container */
+.page-container {
+    padding: 1rem;
+}
+
+.page-container h1 {
+    color: var(--rs-primary-light);
+    margin-bottom: 1rem;
+}
+
+/* Cards grid */
+.device-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+/* Status indicators */
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.status-dot.online { background: var(--rs-success); }
+.status-dot.offline { background: var(--rs-offline); }
+.status-dot.alarming { background: var(--rs-alarming); animation: pulse-dot 1s infinite; }
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* ==============================================
+   LEAFLET MAP STYLES
+   ============================================== */
+
+.map-loading {
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--rs-surface);
+    border-top: 4px solid var(--rs-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.map-no-devices {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 58, 95, 0.9);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    color: var(--rs-text);
+    font-size: 0.85rem;
+}
+
+/* Custom Leaflet Marker */
+.device-marker {
+    background: transparent !important;
+    border: none !important;
+}
+
+.marker-pin {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.marker-icon {
+    transform: rotate(45deg);
+    font-size: 14px;
+}
+
+.marker-pulse {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    opacity: 0;
+    animation: marker-pulse 2s ease-out infinite;
+}
+
+.device-marker.alarming .marker-pulse {
+    animation: marker-pulse-alarm 1s ease-out infinite;
+}
+
+@keyframes marker-pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes marker-pulse-alarm {
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Leaflet Popup Styles */
+.device-popup {
+    min-width: 180px;
+}
+
+.device-popup h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--rs-primary-dark);
+    font-size: 1rem;
+}
+
+.device-popup .device-family {
+    color: #666;
+    font-size: 0.85rem;
+    margin: 0.25rem 0;
+}
+
+.device-popup .device-status {
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+.device-popup .status-alarm { color: var(--rs-danger); }
+.device-popup .status-online { color: var(--rs-success); }
+.device-popup .status-offline { color: var(--rs-offline); }
+
+.device-popup .device-state {
+    font-size: 0.85rem;
+    color: #333;
+    margin: 0.25rem 0;
+}
+
+.device-popup .device-coords {
+    font-size: 0.75rem;
+    color: #999;
+    margin: 0.5rem 0 0 0;
+}
+
+/* ==============================================
+   NAV RAIL STYLES
+   ============================================== */
+
+.nav-rail {
+    width: var(--nav-rail-width-expanded);
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    transition: width var(--transition-base);
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-rail.collapsed {
+    width: var(--nav-rail-width-collapsed);
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0.5rem;
+    margin: 0;
+    flex: 1;
+}
+
+.nav-list li {
+    margin-bottom: 0.25rem;
+}
+
+.nav-rail-item {
+    display: flex;
+    align-items: center;
+    padding: 0.625rem 0.75rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 6px;
+    gap: 0.75rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.nav-rail-item .icon {
+    font-size: 1.1rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.nav-rail-item .text {
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.nav-rail-item:hover {
+    background: var(--bg-hover);
+    color: var(--accent-primary);
+}
+
+.nav-rail-item.active {
+    background: linear-gradient(135deg, rgba(74, 144, 217, 0.15) 0%, rgba(74, 144, 217, 0.08) 100%);
+    color: var(--accent-primary);
+    font-weight: 600;
+    border-left: 3px solid var(--accent-primary);
+}
+
+.nav-rail-item.active .icon i {
+    color: var(--accent-primary);
+}
+
+/* Collapsed state */
+.nav-rail.collapsed .nav-rail-item {
+    justify-content: center;
+    padding: 0.75rem 0.5rem;
+}
+
+.nav-rail.collapsed .nav-rail-item .text {
+    display: none;
+}
+
+.nav-rail-footer {
+    padding: 0.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ==============================================
+   CARDS & GRID UTILITIES
+   ============================================== */
+
+.rs-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rs-card:hover {
+    border-color: var(--accent-primary);
+}
+
+.rs-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.rs-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.rs-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.rs-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.rs-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.rs-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1200px) {
+    .rs-grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .rs-grid-2, .rs-grid-3, .rs-grid-4 { grid-template-columns: 1fr; }
+}
+
+/* ==============================================
+   BADGES
+   ============================================== */
+
+.rs-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.rs-badge-success { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+.rs-badge-warning { background: rgba(234, 179, 8, 0.15); color: var(--warning); }
+.rs-badge-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+.rs-badge-info { background: rgba(74, 144, 217, 0.15); color: var(--accent-primary); }
+
+/* ==============================================
+   TABLES
+   ============================================== */
+
+.rs-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rs-table th,
+.rs-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.rs-table th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.rs-table td {
+    color: var(--text-primary);
+}
+
+.rs-table tbody tr:hover {
+    background: var(--bg-hover);
+}

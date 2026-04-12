@@ -1,0 +1,59 @@
+@inject IAlarmAudioService AudioService
+
+<div class="alarm-player">
+    <h2>Alarm Sounds</h2>
+    <p class="alarm-description">Tap a button to hear a sample alarm sound.</p>
+
+    <div class="alarm-buttons">
+        <button class="alarm-btn alarm-btn-warning @(_activeAlarm == AlarmType.FloodWarning ? "active" : "")"
+                @onclick="() => ToggleAlarm(AlarmType.FloodWarning)">
+            <span class="alarm-icon">⚠️</span>
+            <span class="alarm-label">Flood Warning</span>
+            @if (_activeAlarm == AlarmType.FloodWarning)
+            {
+                <span class="alarm-playing">Playing...</span>
+            }
+        </button>
+
+        <button class="alarm-btn alarm-btn-critical @(_activeAlarm == AlarmType.HighWaterAlarm ? "active" : "")"
+                @onclick="() => ToggleAlarm(AlarmType.HighWaterAlarm)">
+            <span class="alarm-icon">🚨</span>
+            <span class="alarm-label">High Water Alarm</span>
+            @if (_activeAlarm == AlarmType.HighWaterAlarm)
+            {
+                <span class="alarm-playing">Playing...</span>
+            }
+        </button>
+    </div>
+
+    @if (_activeAlarm.HasValue)
+    {
+        <button class="alarm-btn alarm-btn-stop" @onclick="StopAlarm">
+            <span class="alarm-icon">⏹</span>
+            <span class="alarm-label">Stop</span>
+        </button>
+    }
+</div>
+
+@code {
+    private AlarmType? _activeAlarm;
+
+    private async Task ToggleAlarm(AlarmType alarmType)
+    {
+        if (_activeAlarm == alarmType)
+        {
+            await StopAlarm();
+            return;
+        }
+
+        await AudioService.StopAsync();
+        _activeAlarm = alarmType;
+        await AudioService.PlayAlarmAsync(alarmType);
+    }
+
+    private async Task StopAlarm()
+    {
+        await AudioService.StopAsync();
+        _activeAlarm = null;
+    }
+}

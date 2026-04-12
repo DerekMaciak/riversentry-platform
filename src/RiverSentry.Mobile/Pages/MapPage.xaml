@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+             x:Class="RiverSentry.Mobile.Pages.MapPage"
+             Title="Device Map"
+             Shell.NavBarIsVisible="False">
+    
+    <Grid>
+        <!-- Native Map -->
+        <maps:Map x:Name="DeviceMap"
+                  MapType="Hybrid"
+                  IsShowingUser="True"
+                  IsScrollEnabled="True"
+                  IsZoomEnabled="True">
+        </maps:Map>
+        
+        <!-- Loading Overlay -->
+        <Grid x:Name="LoadingOverlay"
+              IsVisible="False"
+              BackgroundColor="#80000000">
+            <VerticalStackLayout 
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                Spacing="10">
+                <ActivityIndicator IsRunning="True" 
+                                   Color="#4A90D9" 
+                                   HeightRequest="50"
+                                   WidthRequest="50"/>
+                <Label Text="Loading devices..." 
+                       TextColor="White" 
+                       FontSize="16"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+        
+        <!-- Top Bar with Center Button and Family Picker -->
+        <Grid VerticalOptions="Start"
+              HorizontalOptions="Fill"
+              Margin="16,6,70,0"
+              ColumnDefinitions="Auto,*"
+              ColumnSpacing="12">
+
+            <!-- Center on devices -->
+            <Border Grid.Column="0"
+                    WidthRequest="44"
+                    HeightRequest="44"
+                    StrokeShape="RoundRectangle 22"
+                    BackgroundColor="#CC4A90D9"
+                    Stroke="Transparent"
+                    VerticalOptions="Center">
+                <Border.Shadow>
+                    <Shadow Brush="#80000000" Offset="2,2" Radius="4"/>
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnCenterButtonClicked"/>
+                </Border.GestureRecognizers>
+                <Label Text="⊙"
+                       FontSize="24"
+                       TextColor="White"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Padding="12,8"
+                    BackgroundColor="#CC1E3A5F"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 12">
+                <Border.Shadow>
+                    <Shadow Brush="#80000000" Offset="2,2" Radius="4"/>
+                </Border.Shadow>
+                <Border BackgroundColor="#CC2A4A6F"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="8,0">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Picker x:Name="FamilyPicker"
+                                Grid.Column="0"
+                                Title="Select Family"
+                                TextColor="White"
+                                TitleColor="#8899AA"
+                                FontSize="14"
+                                HorizontalOptions="Fill"
+                                SelectedIndexChanged="OnFamilySelected"/>
+                        <Label Grid.Column="1"
+                               Text="▼"
+                               TextColor="#8899AA"
+                               FontSize="12"
+                               VerticalOptions="Center"
+                               Margin="0,0,8,0"/>
+                    </Grid>
+                </Border>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

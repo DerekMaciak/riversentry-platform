@@ -1,0 +1,157 @@
+@inject IJSRuntime JS
+@inject IRiverSentryApiClient ApiClient
+@implements IAsyncDisposable
+
+<div class="device-map-container">
+    @if (_loading)
+    {
+        <div class="map-loading">
+            <div class="loading-spinner"></div>
+            <p>Loading device locations...</p>
+        </div>
+    }
+    else if (_error != null)
+    {
+        <div class="map-loading">
+            <p style="color: red;">Error: @_error</p>
+        </div>
+    }
+    else if (_markers.Count == 0)
+    {
+        <div class="map-loading">
+            <p>📡 No devices found (@_markers.Count markers)</p>
+        </div>
+    }
+    else
+    {
+        <div id="@_mapId" class="map-canvas"></div>
+    }
+</div>
+
+@code {
+    private List<MapMarkerDto> _markers = [];
+    private bool _loading = true;
+    private string? _error;
+    private string _mapId = $"device-map-{Guid.NewGuid():N}";
+    private IJSObjectReference? _mapModule;
+    private bool _mapInitialized;
+
+    [Parameter] public EventCallback<MapMarkerDto> OnMarkerSelected { get; set; }
+    [Parameter] public double? InitialLatitude { get; set; }
+    [Parameter] public double? InitialLongitude { get; set; }
+    [Parameter] public int InitialZoom { get; set; } = 12;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _markers = (await ApiClient.GetMapMarkersAsync()).ToList();
+            Console.WriteLine($"Loaded {_markers.Count} markers");
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+            Console.WriteLine($"Failed to load markers: {ex.Message}");
+            _markers = [];
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Console.WriteLine($"OnAfterRenderAsync: firstRender={firstRender}, loading={_loading}, initialized={_mapInitialized}, markers={_markers.Count}");
+
+        if (!_loading && !_mapInitialized && _markers.Any())
+        {
+            _mapInitialized = true;
+            StateHasChanged();
+            await InitializeMapAsync();
+        }
+    }
+
+    private async Task InitializeMapAsync()
+    {
+        try
+        {
+            Console.WriteLine($"InitializeMapAsync: starting, mapId={_mapId}");
+
+            _mapModule = await JS.InvokeAsync<IJSObjectReference>("import", "/_content/RiverSentry.UI.Shared/js/deviceMap.js");
+            Console.WriteLine("JS module loaded");
+
+            // Calculate center from markers or use provided coordinates
+            var centerLat = InitialLatitude ?? _markers.Average(m => m.Latitude);
+            var centerLng = InitialLongitude ?? _markers.Average(m => m.Longitude);
+            Console.WriteLine($"Center: {centerLat}, {centerLng}");
+
+            // Convert markers to JS-friendly format
+            var jsMarkers = _markers.Select(m => new
+            {
+                id = m.DeviceId,
+                name = m.Name,
+                lat = m.Latitude,
+                lng = m.Longitude,
+                state = m.State.ToString(),
+                isOnline = m.IsOnline,
+                isAlarming = m.State is Domain.Enums.DeviceState.AlarmWater
+                    or Domain.Enums.DeviceState.AlarmUpstream
+                    or Domain.Enums.DeviceState.AlarmSilent
+                    or Domain.Enums.DeviceState.AlarmDrill,
+                familyName = m.FamilyName ?? "Unknown"
+            }).ToArray();
+
+            await _mapModule.InvokeVoidAsync("initializeMap", _mapId, centerLat, centerLng, InitialZoom, jsMarkers);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to initialize map: {ex.Message}");
+        }
+    }
+
+    public async Task RefreshMarkersAsync()
+    {
+        try
+        {
+            _markers = (await ApiClient.GetMapMarkersAsync()).ToList();
+            if (_mapModule != null && _markers.Any())
+            {
+                var jsMarkers = _markers.Select(m => new
+                {
+                    id = m.DeviceId,
+                    name = m.Name,
+                    lat = m.Latitude,
+                    lng = m.Longitude,
+                    state = m.State.ToString(),
+                    isOnline = m.IsOnline,
+                    isAlarming = m.State is Domain.Enums.DeviceState.AlarmWater
+                        or Domain.Enums.DeviceState.AlarmUpstream
+                        or Domain.Enums.DeviceState.AlarmSilent
+                        or Domain.Enums.DeviceState.AlarmDrill,
+                    familyName = m.FamilyName ?? "Unknown"
+                }).ToArray();
+
+                await _mapModule.InvokeVoidAsync("updateMarkers", _mapId, jsMarkers);
+            }
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to refresh markers: {ex.Message}");
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_mapModule != null)
+        {
+            try
+            {
+                await _mapModule.InvokeVoidAsync("destroyMap", _mapId);
+                await _mapModule.DisposeAsync();
+            }
+            catch { }
+        }
+    }
+}

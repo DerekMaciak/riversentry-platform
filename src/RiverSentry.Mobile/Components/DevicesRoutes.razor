@@ -1,0 +1,20 @@
+@using RiverSentry.UI.Shared.Components
+@using RiverSentry.Mobile.Pages
+
+<PullToRefresh OnRefresh="Refresh">
+    <RiverSentry.UI.Shared.Pages.Devices @ref="_page" OnDeviceSelected="OnDeviceSelected" />
+</PullToRefresh>
+
+@code {
+    private RiverSentry.UI.Shared.Pages.Devices? _page;
+    private async Task Refresh() { if (_page != null) await _page.LoadData(); }
+
+    private async Task OnDeviceSelected(Guid deviceId)
+    {
+        var currentPage = Application.Current?.Windows.FirstOrDefault()?.Page;
+        if (currentPage != null)
+        {
+            await currentPage.Navigation.PushModalAsync(new DeviceDetailPage(deviceId));
+        }
+    }
+}

@@ -1,0 +1,118 @@
+@inject IRiverSentryApiClient ApiClient
+
+<div class="alert-list">
+    @if (_loading)
+    {
+        <div class="alert-loading">
+            <p>Loading alerts...</p>
+        </div>
+    }
+    else if (!_alerts.Any())
+    {
+        <div class="alert-empty">
+            <span class="alert-empty-icon">✅</span>
+            <h3>All Clear</h3>
+            <p>No active alerts at this time.</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert-items">
+            @foreach (var alert in _alerts)
+            {
+                <div class="alert-item @GetAlertClass(alert)">
+                    <div class="alert-icon">
+                        @GetAlertIcon(alert)
+                    </div>
+                    <div class="alert-content">
+                        <h4>@alert.DeviceName</h4>
+                        <p class="alert-type">@alert.AlertType</p>
+                        <p class="alert-time">@FormatTime(alert.TriggeredAt)</p>
+                    </div>
+                    <div class="alert-actions">
+                        @if (!alert.AcknowledgedAt.HasValue)
+                        {
+                            <button class="ack-btn" @onclick="() => AcknowledgeAlert(alert)">
+                                Acknowledge
+                            </button>
+                        }
+                        else
+                        {
+                            <span class="ack-status">✓ Acknowledged</span>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private List<AlertEventDto> _alerts = [];
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAlertsAsync();
+    }
+
+    private async Task LoadAlertsAsync()
+    {
+        try
+        {
+            _loading = true;
+            _alerts = (await ApiClient.GetActiveAlertsAsync()).ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to load alerts: {ex.Message}");
+            _alerts = [];
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private async Task AcknowledgeAlert(AlertEventDto alert)
+    {
+        try
+        {
+            await ApiClient.AcknowledgeAlertAsync(alert.Id);
+            await LoadAlertsAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to acknowledge alert: {ex.Message}");
+        }
+    }
+
+    private static string GetAlertClass(AlertEventDto alert) =>
+        alert.AlertType switch
+        {
+            "AlarmWater" => "alert-water",
+            "AlarmUpstream" => "alert-upstream",
+            "AlarmSilent" => "alert-silent",
+            "AlarmDrill" => "alert-drill",
+            _ => "alert-default"
+        };
+
+    private static string GetAlertIcon(AlertEventDto alert) =>
+        alert.AlertType switch
+        {
+            "AlarmWater" => "🌊",
+            "AlarmUpstream" => "⬆️",
+            "AlarmSilent" => "🔕",
+            "AlarmDrill" => "🔔",
+            _ => "⚠️"
+        };
+
+    private static string FormatTime(DateTime dt)
+    {
+        var elapsed = DateTime.UtcNow - dt;
+        if (elapsed.TotalMinutes < 1) return "Just now";
+        if (elapsed.TotalMinutes < 60) return $"{(int)elapsed.TotalMinutes} min ago";
+        if (elapsed.TotalHours < 24) return $"{(int)elapsed.TotalHours} hours ago";
+        return dt.ToLocalTime().ToString("MMM d, h:mm tt");
+    }
+}
