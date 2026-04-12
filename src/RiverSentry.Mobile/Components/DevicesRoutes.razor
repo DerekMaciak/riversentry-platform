@@ -1,5 +1,8 @@
 @using RiverSentry.UI.Shared.Components
 @using RiverSentry.Mobile.Pages
+@using RiverSentry.Mobile.Services
+@using RiverSentry.Contracts.DTOs
+@inject DeviceNavigationService NavService
 
 <PullToRefresh OnRefresh="Refresh">
     <RiverSentry.UI.Shared.Pages.Devices @ref="_page" OnDeviceSelected="OnDeviceSelected" />
@@ -9,12 +12,12 @@
     private RiverSentry.UI.Shared.Pages.Devices? _page;
     private async Task Refresh() { if (_page != null) await _page.LoadData(); }
 
-    private async Task OnDeviceSelected(Guid deviceId)
+    private async Task OnDeviceSelected(DeviceDto device)
     {
         var currentPage = Application.Current?.Windows.FirstOrDefault()?.Page;
         if (currentPage != null)
         {
-            await currentPage.Navigation.PushModalAsync(new DeviceDetailPage(deviceId));
+            await currentPage.Navigation.PushModalAsync(new DeviceDetailPage(device, NavService));
         }
     }
 }

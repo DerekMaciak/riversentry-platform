@@ -4,9 +4,10 @@
              xmlns:components="clr-namespace:RiverSentry.Mobile.Components"
              x:Class="RiverSentry.Mobile.DevicesPage"
              Title="Devices"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#0d1117">
 
-    <BlazorWebView HostPage="wwwroot/index.html">
+    <BlazorWebView HostPage="wwwroot/index.html" BackgroundColor="#0d1117">
         <BlazorWebView.RootComponents>
             <RootComponent Selector="#app" ComponentType="{x:Type components:DevicesRoutes}" />
         </BlazorWebView.RootComponents>

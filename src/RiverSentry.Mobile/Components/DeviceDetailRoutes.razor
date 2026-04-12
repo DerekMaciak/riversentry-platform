@@ -1,11 +1,29 @@
 @using RiverSentry.UI.Shared.Components
-@using RiverSentry.Mobile.Pages
+@using RiverSentry.Mobile.Services
+@using RiverSentry.Contracts.DTOs
+@inject DeviceNavigationService NavService
 
 <PullToRefresh OnRefresh="Refresh">
-    <RiverSentry.UI.Shared.Pages.DeviceDetail @ref="_page" DeviceId="DeviceDetailPage.CurrentDeviceId" />
+    <RiverSentry.UI.Shared.Pages.DeviceDetail @ref="_page" Device="_device" OnClose="CloseModal" />
 </PullToRefresh>
 
 @code {
     private RiverSentry.UI.Shared.Pages.DeviceDetail? _page;
-    private async Task Refresh() { if (_page != null) await _page.LoadData(); }
+    private DeviceDto? _device;
+
+    protected override void OnInitialized()
+    {
+        _device = NavService.CurrentDevice;
+    }
+
+    private async Task Refresh()
+    {
+        if (_page != null)
+            await _page.LoadData();
+    }
+
+    private void CloseModal()
+    {
+        NavService.CloseModal?.Invoke();
+    }
 }

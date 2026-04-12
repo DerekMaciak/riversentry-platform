@@ -12,19 +12,26 @@
     </div>
 
     <div class="page-scroll-content">
-        @if (_loading)
+        @if (_loading && Device == null)
         {
             <div class="loading-container">
                 <div class="spinner-large"></div>
                 <p>Loading...</p>
             </div>
         }
-        else if (_device == null)
+        else if (_device == null && Device == null)
         {
             <div class="error-container">
                 <i class="oi oi-warning"></i>
                 <p>Device not found</p>
-                <a href="/devices" class="btn-retry">Back to Devices</a>
+                @if (OnClose.HasDelegate)
+                {
+                    <button class="btn-retry" @onclick="OnClose">Close</button>
+                }
+                else
+                {
+                    <a href="/devices" class="btn-retry">Back to Devices</a>
+                }
             </div>
         }
         else
@@ -153,14 +160,30 @@
 
 @code {
     [Parameter] public Guid DeviceId { get; set; }
+    [Parameter] public DeviceDto? Device { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
 
     private DeviceDto? _device;
     private DeviceStatusDto? _status;
     private bool _loading = true;
+    private Guid _loadedDeviceId;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        await LoadData();
+        // If Device is passed directly, use it (mobile app)
+        if (Device != null && Device.Id != _loadedDeviceId)
+        {
+            _device = Device;
+            _loadedDeviceId = Device.Id;
+            _loading = false;
+            await LoadStatus();
+        }
+        // Otherwise load by DeviceId (web app)
+        else if (DeviceId != Guid.Empty && DeviceId != _loadedDeviceId)
+        {
+            _loadedDeviceId = DeviceId;
+            await LoadData();
+        }
     }
 
     public async Task LoadData()
@@ -168,11 +191,8 @@
         try
         {
             _loading = true;
-            _device = await ApiClient.GetDeviceAsync(DeviceId);
-            if (_device != null)
-            {
-                _status = await ApiClient.GetDeviceStatusAsync(DeviceId);
-            }
+            _device = await ApiClient.GetDeviceAsync(_loadedDeviceId);
+            await LoadStatus();
         }
         catch (Exception)
         {
@@ -181,6 +201,21 @@
         finally
         {
             _loading = false;
+        }
+    }
+
+    private async Task LoadStatus()
+    {
+        if (_device != null)
+        {
+            try
+            {
+                _status = await ApiClient.GetDeviceStatusAsync(_device.Id);
+            }
+            catch
+            {
+                _status = null;
+            }
         }
     }
 

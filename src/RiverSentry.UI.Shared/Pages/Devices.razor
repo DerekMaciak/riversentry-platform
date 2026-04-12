@@ -66,7 +66,7 @@
                 <div class="device-grid">
                     @foreach (var device in family)
                     {
-                        <div class="device-card @(device.IsOnline ? "" : "offline")" @onclick="() => SelectDevice(device.Id)" style="cursor: pointer;">
+                        <div class="device-card @(device.IsOnline ? "" : "offline")" @onclick="() => SelectDevice(device)" style="cursor: pointer;">
                             <div class="device-card-content">
                                 <div class="device-image">
                                     <img src="images/device.png" alt="Device" />
@@ -97,7 +97,7 @@
 </div>
 
 @code {
-    [Parameter] public EventCallback<Guid> OnDeviceSelected { get; set; }
+    [Parameter] public EventCallback<DeviceDto> OnDeviceSelected { get; set; }
 
     private List<DeviceDto> _devices = [];
     private bool _loading = true;
@@ -110,15 +110,15 @@
 
     public async Task LoadData() => await LoadDevices();
 
-    private async Task SelectDevice(Guid deviceId)
+    private async Task SelectDevice(DeviceDto device)
     {
         if (OnDeviceSelected.HasDelegate)
         {
-            await OnDeviceSelected.InvokeAsync(deviceId);
+            await OnDeviceSelected.InvokeAsync(device);
         }
         else
         {
-            Nav.NavigateTo($"/device/{deviceId}");
+            Nav.NavigateTo($"/device/{device.Id}");
         }
     }
 

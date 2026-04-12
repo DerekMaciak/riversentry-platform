@@ -53,6 +53,9 @@ public static class MauiProgram
         // Audio service (native mobile playback)
         builder.Services.AddSingleton<IAlarmAudioService, MobileAlarmAudioService>();
 
+        // Navigation service for passing data to Blazor components
+        builder.Services.AddSingleton<DeviceNavigationService>();
+
         // Pages
         builder.Services.AddTransient<MapPage>();
         builder.Services.AddTransient<MainPage>();

@@ -3,6 +3,7 @@ using Microsoft.Maui.Maps;
 using RiverSentry.Contracts.DTOs;
 using RiverSentry.Domain.Enums;
 using RiverSentry.Mobile.Controls;
+using RiverSentry.Mobile.Services;
 using RiverSentry.UI.Shared.Services;
 
 namespace RiverSentry.Mobile.Pages;
@@ -10,6 +11,7 @@ namespace RiverSentry.Mobile.Pages;
 public partial class MapPage : ContentPage
 {
     private readonly IDeviceService _deviceService;
+    private readonly DeviceNavigationService _navService;
     private List<DeviceDto> _devices = [];
     private List<DeviceDto> _filteredDevices = [];
     private List<string> _families = [];
@@ -18,10 +20,11 @@ public partial class MapPage : ContentPage
     private bool _isLoading;
     private const string AllDevicesOption = "All Devices";
 
-    public MapPage(IDeviceService deviceService)
+    public MapPage(IDeviceService deviceService, DeviceNavigationService navService)
     {
         InitializeComponent();
         _deviceService = deviceService;
+        _navService = navService;
 
         // Set initial position to Texas Hill Country (where devices are)
         DeviceMap.MoveToRegion(MapSpan.FromCenterAndRadius(
@@ -175,38 +178,7 @@ public partial class MapPage : ContentPage
 
     private async void OnPinClicked(DeviceDto device)
     {
-        var action = await DisplayActionSheet(
-            device.Name,
-            "Cancel",
-            null,
-            "View Details",
-            "Navigate To");
-
-        switch (action)
-        {
-            case "View Details":
-                await Navigation.PushModalAsync(new DeviceDetailPage(device.Id));
-                break;
-            case "Navigate To":
-                await OpenMapsNavigationAsync(device);
-                break;
-        }
-    }
-
-    private async Task OpenMapsNavigationAsync(DeviceDto device)
-    {
-        var location = new Location(device.Latitude, device.Longitude);
-        var options = new MapLaunchOptions { NavigationMode = NavigationMode.Driving };
-
-        try
-        {
-            // Use fully qualified name to avoid ambiguity with Maps.Map
-            await Microsoft.Maui.ApplicationModel.Map.Default.OpenAsync(location, options);
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Error", $"Could not open maps: {ex.Message}", "OK");
-        }
+        await Navigation.PushModalAsync(new DeviceDetailPage(device, _navService));
     }
 
     private static string GetStatusText(DeviceState state) => state switch

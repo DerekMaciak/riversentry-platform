@@ -5,23 +5,12 @@
        xmlns:local="clr-namespace:RiverSentry.Mobile"
        x:Class="RiverSentry.Mobile.AppShell"
        Shell.FlyoutBehavior="Disabled"
-       Shell.NavBarIsVisible="False">
-
-    <Shell.Resources>
-        <ResourceDictionary>
-            <!-- Tab bar colors -->
-            <Color x:Key="TabBarBackground">#0d1117</Color>
-            <Color x:Key="TabBarSelected">#58a6ff</Color>
-            <Color x:Key="TabBarUnselected">#8b949e</Color>
-            
-            <Style TargetType="TabBar">
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource TabBarBackground}"/>
-                <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource TabBarSelected}"/>
-                <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource TabBarUnselected}"/>
-                <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource TabBarSelected}"/>
-            </Style>
-        </ResourceDictionary>
-    </Shell.Resources>
+       Shell.NavBarIsVisible="False"
+       Shell.TabBarBackgroundColor="#0d1117"
+       Shell.TabBarForegroundColor="#58a6ff"
+       Shell.TabBarUnselectedColor="#8b949e"
+       Shell.TabBarTitleColor="#58a6ff"
+       BackgroundColor="#0d1117">
 
     <TabBar>
         <!-- Dashboard Tab - Blazor WebView -->
