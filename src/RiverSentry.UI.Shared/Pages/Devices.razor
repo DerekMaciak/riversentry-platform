@@ -1,6 +1,7 @@
 @page "/devices"
 @inject IRiverSentryApiClient ApiClient
 @inject NavigationManager Nav
+@inject IJSRuntime JS
 
 <PageTitle>Devices - River Sentry</PageTitle>
 
@@ -118,7 +119,17 @@
         }
         else
         {
-            Nav.NavigateTo($"/device/{device.Id}");
+            // Check if we're in mobile shell mode - if so, use bridge to open native modal
+            var isMobileShell = Nav.Uri.Contains("shell=mobile");
+            if (isMobileShell)
+            {
+                // Navigate using URL which native app will intercept
+                await JS.InvokeVoidAsync("eval", $"window.location.href = '/device/{device.Id}'");
+            }
+            else
+            {
+                Nav.NavigateTo($"/device/{device.Id}");
+            }
         }
     }
 

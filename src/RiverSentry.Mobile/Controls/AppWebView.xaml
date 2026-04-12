@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RiverSentry.Mobile.Controls.AppWebView"
+             x:Name="this"
+             BackgroundColor="#0d1117">
+
+    <Grid>
+        <!-- Pull to Refresh wrapper -->
+        <RefreshView x:Name="refreshView"
+                     IsRefreshing="{Binding IsRefreshing, Source={x:Reference this}}"
+                     Command="{Binding RefreshCommand, Source={x:Reference this}}"
+                     RefreshColor="#58a6ff">
+            <WebView x:Name="webView"
+                     BackgroundColor="#0d1117"
+                     Navigating="OnNavigating"
+                     Navigated="OnNavigated" />
+        </RefreshView>
+
+        <!-- Loading Overlay -->
+        <Grid x:Name="loadingOverlay"
+              BackgroundColor="#0d1117"
+              IsVisible="True">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="16">
+                <ActivityIndicator IsRunning="True" Color="#58a6ff" HeightRequest="48" WidthRequest="48" />
+                <Label Text="Loading..."
+                       TextColor="#8b949e"
+                       FontSize="14"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Error Overlay -->
+        <Grid x:Name="errorOverlay"
+              BackgroundColor="#0d1117"
+              IsVisible="False">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="16" Padding="32">
+                <Label Text="⚠" FontSize="48" HorizontalOptions="Center" TextColor="#8b949e" />
+                <Label x:Name="errorLabel"
+                       Text="Unable to connect"
+                       TextColor="#f0f6fc"
+                       FontSize="18"
+                       HorizontalOptions="Center" />
+                <Label Text="Check your internet connection and try again."
+                       TextColor="#8b949e"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+                <Button Text="Retry"
+                        Clicked="OnRetryClicked"
+                        BackgroundColor="#58a6ff"
+                        TextColor="White"
+                        CornerRadius="8"
+                        Padding="24,12"
+                        Margin="0,16,0,0" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+
+</ContentView>

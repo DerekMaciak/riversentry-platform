@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:components="clr-namespace:RiverSentry.Mobile.Components"
+             xmlns:controls="clr-namespace:RiverSentry.Mobile.Controls"
              x:Class="RiverSentry.Mobile.Pages.DeviceDetailPage"
              Title="Device Details"
              Shell.NavBarIsVisible="False"
              BackgroundColor="#0d1117">
 
-    <Grid>
-        <BlazorWebView HostPage="wwwroot/index.html" BackgroundColor="#0d1117">
-            <BlazorWebView.RootComponents>
-                <RootComponent Selector="#app" ComponentType="{x:Type components:DeviceDetailRoutes}" />
-            </BlazorWebView.RootComponents>
-        </BlazorWebView>
+    <AbsoluteLayout>
+        <!-- WebView fills entire page -->
+        <controls:AppWebView x:Name="appWebView"
+                             InterceptDeviceDetail="False"
+                             AbsoluteLayout.LayoutFlags="All"
+                             AbsoluteLayout.LayoutBounds="0,0,1,1" />
 
-        <!-- Close button overlay -->
-        <Border VerticalOptions="Start"
-                HorizontalOptions="End"
-                Margin="0,16,16,0"
+        <!-- Close button in top-right corner -->
+        <Border AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="0.95,0.02,36,36"
                 WidthRequest="36"
                 HeightRequest="36"
                 StrokeShape="RoundRectangle 18"
-                BackgroundColor="#30363d"
-                Stroke="Transparent">
+                BackgroundColor="#21262d"
+                Stroke="#30363d"
+                StrokeThickness="1">
             <Border.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnCloseTapped"/>
             </Border.GestureRecognizers>
             <Label Text="✕"
                    FontSize="16"
-                   TextColor="#f0f6fc"
+                   TextColor="#8b949e"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"/>
         </Border>
-    </Grid>
+    </AbsoluteLayout>
 
 </ContentPage>

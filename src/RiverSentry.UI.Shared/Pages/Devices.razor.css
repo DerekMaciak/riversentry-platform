@@ -149,26 +149,9 @@
     color: var(--text-muted);
 }
 
-.spinner, .spinner-large {
-    border: 3px solid var(--border-color);
-    border-top-color: var(--accent-primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-.spinner {
-    width: 18px;
-    height: 18px;
-}
-
+/* Spinner styles inherited from riversentry-shared.css */
 .spinner-large {
-    width: 48px;
-    height: 48px;
     margin-bottom: 1rem;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
 }
 
 /* Error Card */

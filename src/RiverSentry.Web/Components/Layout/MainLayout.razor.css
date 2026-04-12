@@ -10,6 +10,49 @@
     --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Mobile Shell Mode - Full screen content, no chrome */
+.mobile-shell-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background:
+        linear-gradient(rgba(13, 17, 23, 0.75), rgba(13, 17, 23, 0.80)),
+        url('/_content/RiverSentry.UI.Shared/images/lighteningbackground.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: #0d1117;
+}
+
+.mobile-shell-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: rgba(13, 17, 23, 0.9);
+    border-bottom: 1px solid #30363d;
+}
+
+.mobile-logo {
+    height: 80px;
+    width: auto;
+}
+
+.mobile-shell-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.5rem;
+}
+
+/* Hide page headers in mobile shell - native tabs provide navigation */
+.mobile-shell-content ::deep(.page-header),
+.mobile-shell-content ::deep(.content-header),
+.mobile-shell-container ::deep(.page-header),
+.mobile-shell-container ::deep(.content-header) {
+    display: none !important;
+}
+
 /* Main Layout Container */
 .main-layout-container {
     display: flex;

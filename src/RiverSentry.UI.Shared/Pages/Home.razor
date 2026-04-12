@@ -184,9 +184,9 @@
                 .OrderByDescending(d => d.InstalledDate)
                 .ToList();
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Error loading dashboard: {ex.Message}");
+            // Dashboard load failed silently
         }
         finally
         {

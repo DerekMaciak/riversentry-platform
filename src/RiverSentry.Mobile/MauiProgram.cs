@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Plugin.LocalNotification;
 using RiverSentry.Mobile.Pages;
 using RiverSentry.Mobile.Services;
 using RiverSentry.UI.Shared.Services;
@@ -12,7 +13,8 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseMauiMaps() // Enable native maps
+            .UseMauiMaps()
+            .UseLocalNotification()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -21,10 +23,11 @@ public static class MauiProgram
             {
 #if ANDROID
                 handlers.AddHandler<Microsoft.Maui.Controls.Maps.Map, RiverSentry.Mobile.Platforms.Android.Handlers.CustomMapHandler>();
+                handlers.AddHandler<WebView, RiverSentry.Mobile.Platforms.Android.Handlers.CustomWebViewHandler>();
+#elif IOS
+                handlers.AddHandler<WebView, RiverSentry.Mobile.Platforms.iOS.Handlers.CustomWebViewHandler>();
 #endif
             });
-
-        builder.Services.AddMauiBlazorWebView();
 
         // API client with HTTPS
         // Use 10.0.2.2 for Android emulator, localhost for Windows
@@ -47,24 +50,19 @@ public static class MauiProgram
             return handler;
         });
 
-        // Device service for map
+        // Device service for native map
         builder.Services.AddTransient<IDeviceService, ApiDeviceService>();
 
-        // Audio service (native mobile playback)
-        builder.Services.AddSingleton<IAlarmAudioService, MobileAlarmAudioService>();
+        // Alarm notification service
+        builder.Services.AddSingleton<AlarmNotificationService>();
 
-        // Navigation service for passing data to Blazor components
-        builder.Services.AddSingleton<DeviceNavigationService>();
+        // Pages - Singleton to keep state when navigating away
+        builder.Services.AddSingleton<MapPage>();
 
-        // Pages
-        builder.Services.AddTransient<MapPage>();
-        builder.Services.AddTransient<MainPage>();
-        builder.Services.AddTransient<DevicesPage>();
-        builder.Services.AddTransient<AlertsPage>();
-        builder.Services.AddTransient<LocationsPage>();
+        // AppShell needs MapPage injected
+        builder.Services.AddSingleton<AppShell>();
 
 #if DEBUG
-        builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
 

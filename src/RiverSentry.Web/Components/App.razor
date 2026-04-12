@@ -41,6 +41,40 @@
     <script src="lib/leaflet/leaflet.js"></script>
 
     <script src="_framework/blazor.web.js"></script>
+
+    <!-- Audio playback for alarm sounds -->
+    <script>
+        window.riverSentryAudio = {
+            audio: null,
+            play: function(soundFile) {
+                this.stop();
+                this.audio = new Audio('/_content/RiverSentry.UI.Shared/' + soundFile);
+                this.audio.loop = true;
+                this.audio.play().catch(err => console.log('Audio play failed:', err));
+            },
+            stop: function() {
+                if (this.audio) {
+                    this.audio.pause();
+                    this.audio.currentTime = 0;
+                    this.audio = null;
+                }
+            }
+        };
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .catch(err => console.log('Service worker registration failed:', err));
+        }
+
+        // Bridge to native app for notifications
+        window.sendNativeNotification = function(type, deviceName) {
+            // This triggers a navigation that the native WebView intercepts
+            window.location.href = 'app://notification/' + type + '?device=' + encodeURIComponent(deviceName);
+        };
+    </script>
 </body>
 
 </html>

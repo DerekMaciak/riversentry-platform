@@ -23,8 +23,8 @@
                 VerticalOptions="Center" 
                 HorizontalOptions="Center"
                 Spacing="10">
-                <ActivityIndicator IsRunning="True" 
-                                   Color="#4A90D9" 
+                <ActivityIndicator IsRunning="True"
+                                   Color="#58a6ff"
                                    HeightRequest="50"
                                    WidthRequest="50"/>
                 <Label Text="Loading devices..." 
@@ -37,7 +37,7 @@
         <!-- Top Bar with Center Button and Family Picker -->
         <Grid VerticalOptions="Start"
               HorizontalOptions="Fill"
-              Margin="16,6,70,0"
+              Margin="16,7,70,0"
               ColumnDefinitions="Auto,*"
               ColumnSpacing="12">
 
@@ -65,34 +65,27 @@
             </Border>
 
             <Border Grid.Column="1"
-                    Padding="12,8"
-                    BackgroundColor="#CC1E3A5F"
+                    BackgroundColor="#CC2A4A6F"
                     StrokeThickness="0"
-                    StrokeShape="RoundRectangle 12">
-                <Border.Shadow>
-                    <Shadow Brush="#80000000" Offset="2,2" Radius="4"/>
-                </Border.Shadow>
-                <Border BackgroundColor="#CC2A4A6F"
-                        StrokeThickness="0"
-                        StrokeShape="RoundRectangle 8"
-                        Padding="8,0">
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Picker x:Name="FamilyPicker"
-                                Grid.Column="0"
-                                Title="Select Family"
-                                TextColor="White"
-                                TitleColor="#8899AA"
-                                FontSize="14"
-                                HorizontalOptions="Fill"
-                                SelectedIndexChanged="OnFamilySelected"/>
-                        <Label Grid.Column="1"
-                               Text="▼"
-                               TextColor="#8899AA"
-                               FontSize="12"
-                               VerticalOptions="Center"
-                               Margin="0,0,8,0"/>
-                    </Grid>
-                </Border>
+                    StrokeShape="RoundRectangle 8"
+                    Padding="8,0"
+                    VerticalOptions="Center">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Picker x:Name="FamilyPicker"
+                            Grid.Column="0"
+                            Title="Select Family"
+                            TextColor="White"
+                            TitleColor="#8899AA"
+                            FontSize="14"
+                            HorizontalOptions="Fill"
+                            SelectedIndexChanged="OnFamilySelected"/>
+                    <Label Grid.Column="1"
+                           Text="▼"
+                           TextColor="#8899AA"
+                           FontSize="12"
+                           VerticalOptions="Center"
+                           Margin="0,0,8,0"/>
+                </Grid>
             </Border>
         </Grid>
     </Grid>

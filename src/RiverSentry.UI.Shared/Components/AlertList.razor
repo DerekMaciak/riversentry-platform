@@ -63,9 +63,8 @@
             _loading = true;
             _alerts = (await ApiClient.GetActiveAlertsAsync()).ToList();
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Failed to load alerts: {ex.Message}");
             _alerts = [];
         }
         finally
@@ -81,9 +80,9 @@
             await ApiClient.AcknowledgeAlertAsync(alert.Id);
             await LoadAlertsAsync();
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Failed to acknowledge alert: {ex.Message}");
+            // Silently fail - alert will remain in list
         }
     }
 

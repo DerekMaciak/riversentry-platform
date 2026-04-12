@@ -3,7 +3,6 @@ using Microsoft.Maui.Maps;
 using RiverSentry.Contracts.DTOs;
 using RiverSentry.Domain.Enums;
 using RiverSentry.Mobile.Controls;
-using RiverSentry.Mobile.Services;
 using RiverSentry.UI.Shared.Services;
 
 namespace RiverSentry.Mobile.Pages;
@@ -11,7 +10,6 @@ namespace RiverSentry.Mobile.Pages;
 public partial class MapPage : ContentPage
 {
     private readonly IDeviceService _deviceService;
-    private readonly DeviceNavigationService _navService;
     private List<DeviceDto> _devices = [];
     private List<DeviceDto> _filteredDevices = [];
     private List<string> _families = [];
@@ -20,11 +18,10 @@ public partial class MapPage : ContentPage
     private bool _isLoading;
     private const string AllDevicesOption = "All Devices";
 
-    public MapPage(IDeviceService deviceService, DeviceNavigationService navService)
+    public MapPage(IDeviceService deviceService)
     {
         InitializeComponent();
         _deviceService = deviceService;
-        _navService = navService;
 
         // Set initial position to Texas Hill Country (where devices are)
         DeviceMap.MoveToRegion(MapSpan.FromCenterAndRadius(
@@ -36,16 +33,12 @@ public partial class MapPage : ContentPage
     {
         base.OnAppearing();
 
-        // Only load if we don't have devices yet or if explicitly refreshing
+        // Only load if we don't have devices yet
         if (_devices.Count == 0 && !_isLoading)
         {
             await LoadDevicesAsync();
         }
-        else
-        {
-            // Just update pins with cached data
-            UpdateMapPins();
-        }
+        // Otherwise, keep everything as-is (pins, zoom, position)
     }
 
     private async Task LoadDevicesAsync()
@@ -178,7 +171,7 @@ public partial class MapPage : ContentPage
 
     private async void OnPinClicked(DeviceDto device)
     {
-        await Navigation.PushModalAsync(new DeviceDetailPage(device, _navService));
+        await Navigation.PushModalAsync(new DeviceDetailPage(device.Id));
     }
 
     private static string GetStatusText(DeviceState state) => state switch

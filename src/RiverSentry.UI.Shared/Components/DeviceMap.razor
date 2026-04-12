@@ -46,12 +46,10 @@
         try
         {
             _markers = (await ApiClient.GetMapMarkersAsync()).ToList();
-            Console.WriteLine($"Loaded {_markers.Count} markers");
         }
         catch (Exception ex)
         {
             _error = ex.Message;
-            Console.WriteLine($"Failed to load markers: {ex.Message}");
             _markers = [];
         }
         finally
@@ -62,8 +60,6 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        Console.WriteLine($"OnAfterRenderAsync: firstRender={firstRender}, loading={_loading}, initialized={_mapInitialized}, markers={_markers.Count}");
-
         if (!_loading && !_mapInitialized && _markers.Any())
         {
             _mapInitialized = true;
@@ -76,15 +72,11 @@
     {
         try
         {
-            Console.WriteLine($"InitializeMapAsync: starting, mapId={_mapId}");
-
             _mapModule = await JS.InvokeAsync<IJSObjectReference>("import", "/_content/RiverSentry.UI.Shared/js/deviceMap.js");
-            Console.WriteLine("JS module loaded");
 
             // Calculate center from markers or use provided coordinates
             var centerLat = InitialLatitude ?? _markers.Average(m => m.Latitude);
             var centerLng = InitialLongitude ?? _markers.Average(m => m.Longitude);
-            Console.WriteLine($"Center: {centerLat}, {centerLng}");
 
             // Convert markers to JS-friendly format
             var jsMarkers = _markers.Select(m => new
@@ -104,9 +96,9 @@
 
             await _mapModule.InvokeVoidAsync("initializeMap", _mapId, centerLat, centerLng, InitialZoom, jsMarkers);
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Failed to initialize map: {ex.Message}");
+            // Map initialization failed silently
         }
     }
 
@@ -136,9 +128,9 @@
             }
             StateHasChanged();
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Failed to refresh markers: {ex.Message}");
+            // Refresh failed silently
         }
     }
 

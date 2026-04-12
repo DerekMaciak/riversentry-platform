@@ -1,6 +1,22 @@
 ﻿@inherits LayoutComponentBase
+@implements IDisposable
 @inject IJSRuntime JS
+@inject NavigationManager Nav
 
+@if (_isMobileShell)
+{
+    <!-- Mobile Shell Mode: Simple header with logo, no nav or footer -->
+    <div class="mobile-shell-container" data-theme="dark">
+        <header class="mobile-shell-header">
+            <img src="images/logotransparent.png" alt="River Sentry" class="mobile-logo" />
+        </header>
+        <main class="mobile-shell-content">
+            @Body
+        </main>
+    </div>
+}
+else
+{
 <div class="main-layout-container" data-theme="@(_isDarkMode ? "dark" : "light")">
     <!-- App Header -->
     <header class="app-header">
@@ -91,6 +107,7 @@
         <small>v1.0.0</small>
     </footer>
 </div>
+}
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
@@ -102,10 +119,39 @@
     private bool _isDarkMode = true;
     private bool _isNavCollapsed = false;
     private bool _isMobileNavOpen = false;
+    private bool _isMobileShell = false;
+
+    protected override void OnInitialized()
+    {
+        // Check if we're in mobile shell mode (check current URL and listen for changes)
+        CheckMobileShell();
+        Nav.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        CheckMobileShell();
+        StateHasChanged();
+    }
+
+    private void CheckMobileShell()
+    {
+        var uri = new Uri(Nav.Uri);
+        // Once in mobile shell mode, stay in mobile shell mode for this session
+        if (uri.Query.Contains("shell=mobile"))
+        {
+            _isMobileShell = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Nav.LocationChanged -= OnLocationChanged;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (firstRender && !_isMobileShell)
         {
             // Read both values from localStorage before triggering any re-render
             var savedTheme = await JS.InvokeAsync<string>("localStorage.getItem", "rs-theme");

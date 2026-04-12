@@ -1,5 +1,7 @@
 @page "/device/{DeviceId:guid}"
 @inject IRiverSentryApiClient ApiClient
+@inject NavigationManager Nav
+@inject IJSRuntime JS
 
 <PageTitle>@(_device?.Name ?? "Device") - River Sentry</PageTitle>
 
@@ -154,6 +156,15 @@
                     </div>
                 </div>
             }
+
+            @if (_isMobileShell)
+            {
+                <div class="detail-section close-section">
+                    <button class="btn-close-detail" @onclick="CloseDetail">
+                        <i class="oi oi-x"></i> Close
+                    </button>
+                </div>
+            }
         }
     </div>
 </div>
@@ -167,6 +178,12 @@
     private DeviceStatusDto? _status;
     private bool _loading = true;
     private Guid _loadedDeviceId;
+    private bool _isMobileShell;
+
+    protected override void OnInitialized()
+    {
+        _isMobileShell = Nav.Uri.Contains("shell=mobile");
+    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -184,6 +201,12 @@
             _loadedDeviceId = DeviceId;
             await LoadData();
         }
+    }
+
+    private async Task CloseDetail()
+    {
+        // Use bridge to tell native app to close
+        await JS.InvokeVoidAsync("eval", "window.location.href = 'app://close'");
     }
 
     public async Task LoadData()

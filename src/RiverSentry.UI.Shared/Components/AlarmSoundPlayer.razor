@@ -1,42 +1,80 @@
 @inject IAlarmAudioService AudioService
+@inject IJSRuntime JS
+@inject NavigationManager Nav
 
 <div class="alarm-player">
-    <h2>Alarm Sounds</h2>
-    <p class="alarm-description">Tap a button to hear a sample alarm sound.</p>
+    <div class="alarm-section">
+        <h2>🔊 Device Alarm Sounds</h2>
+        <p class="alarm-description">
+            These are the sounds your River Sentry device will play when it detects rising water.
+            The device has a built-in speaker that will sound these alarms to alert anyone nearby.
+        </p>
 
-    <div class="alarm-buttons">
-        <button class="alarm-btn alarm-btn-warning @(_activeAlarm == AlarmType.FloodWarning ? "active" : "")"
-                @onclick="() => ToggleAlarm(AlarmType.FloodWarning)">
-            <span class="alarm-icon">⚠️</span>
-            <span class="alarm-label">Flood Warning</span>
-            @if (_activeAlarm == AlarmType.FloodWarning)
-            {
-                <span class="alarm-playing">Playing...</span>
-            }
-        </button>
+        <div class="alarm-buttons">
+            <button class="alarm-btn alarm-btn-warning @(_activeAlarm == AlarmType.FloodWarning ? "active" : "")"
+                    @onclick="() => ToggleAlarm(AlarmType.FloodWarning)">
+                <span class="alarm-icon">⚠️</span>
+                <span class="alarm-label">Flood Warning</span>
+                @if (_activeAlarm == AlarmType.FloodWarning)
+                {
+                    <span class="alarm-playing">Playing...</span>
+                }
+            </button>
 
-        <button class="alarm-btn alarm-btn-critical @(_activeAlarm == AlarmType.HighWaterAlarm ? "active" : "")"
-                @onclick="() => ToggleAlarm(AlarmType.HighWaterAlarm)">
-            <span class="alarm-icon">🚨</span>
-            <span class="alarm-label">High Water Alarm</span>
-            @if (_activeAlarm == AlarmType.HighWaterAlarm)
-            {
-                <span class="alarm-playing">Playing...</span>
-            }
-        </button>
+            <button class="alarm-btn alarm-btn-critical @(_activeAlarm == AlarmType.HighWaterAlarm ? "active" : "")"
+                    @onclick="() => ToggleAlarm(AlarmType.HighWaterAlarm)">
+                <span class="alarm-icon">🚨</span>
+                <span class="alarm-label">High Water Alarm</span>
+                @if (_activeAlarm == AlarmType.HighWaterAlarm)
+                {
+                    <span class="alarm-playing">Playing...</span>
+                }
+            </button>
+        </div>
+
+        @if (_activeAlarm.HasValue)
+        {
+            <button class="alarm-btn alarm-btn-stop" @onclick="StopAlarm">
+                <span class="alarm-icon">⏹</span>
+                <span class="alarm-label">Stop</span>
+            </button>
+        }
     </div>
 
-    @if (_activeAlarm.HasValue)
-    {
-        <button class="alarm-btn alarm-btn-stop" @onclick="StopAlarm">
-            <span class="alarm-icon">⏹</span>
-            <span class="alarm-label">Stop</span>
-        </button>
-    }
+    <div class="notification-section">
+        <h2>📱 Phone Notification Simulation</h2>
+        <p class="alarm-description">
+            When your River Sentry device detects rising water, you'll also receive a notification
+            on your phone. Tap a button below to simulate what that notification will look and sound like.
+        </p>
+        <ul class="notification-features">
+            <li>✓ Notification appears in your notification bar</li>
+            <li>✓ Phone plays alarm sound</li>
+            <li>✓ Phone vibrates</li>
+            <li>✓ Works even when the app is in the background</li>
+        </ul>
+        <div class="alarm-buttons">
+            <button class="alarm-btn alarm-btn-notification" @onclick="SendWaterNotification">
+                <span class="alarm-icon">🌊</span>
+                <span class="alarm-label">Simulate Water Alert</span>
+            </button>
+            <button class="alarm-btn alarm-btn-notification" @onclick="SendUpstreamNotification">
+                <span class="alarm-icon">⬆️</span>
+                <span class="alarm-label">Simulate Upstream Alert</span>
+            </button>
+        </div>
+    </div>
 </div>
 
 @code {
     private AlarmType? _activeAlarm;
+    private bool _isMobileShell;
+
+    protected override void OnInitialized()
+    {
+        var uri = new Uri(Nav.Uri);
+        _isMobileShell = uri.Query.Contains("shell=mobile");
+    }
 
     private async Task ToggleAlarm(AlarmType alarmType)
     {
@@ -55,5 +93,29 @@
     {
         await AudioService.StopAsync();
         _activeAlarm = null;
+    }
+
+    private async Task SendWaterNotification()
+    {
+        if (_isMobileShell)
+        {
+            await JS.InvokeVoidAsync("sendNativeNotification", "water", "Test Device");
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("alert", "Notifications only work in the mobile app. Install River Sentry on your phone to test.");
+        }
+    }
+
+    private async Task SendUpstreamNotification()
+    {
+        if (_isMobileShell)
+        {
+            await JS.InvokeVoidAsync("sendNativeNotification", "upstream", "Test Device");
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("alert", "Notifications only work in the mobile app. Install River Sentry on your phone to test.");
+        }
     }
 }

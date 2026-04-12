@@ -18,9 +18,9 @@
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
         </Tab>
 
-        <!-- Map Tab - Native MAUI Map -->
+        <!-- Map Tab - Native MAUI Map (singleton to preserve state) -->
         <Tab Title="Map" Icon="tab_map.png">
-            <ShellContent ContentTemplate="{DataTemplate pages:MapPage}" />
+            <ShellContent x:Name="mapShellContent" />
         </Tab>
 
         <!-- Devices Tab - Blazor WebView -->

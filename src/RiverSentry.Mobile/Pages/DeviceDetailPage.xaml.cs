@@ -1,21 +1,27 @@
-using RiverSentry.Contracts.DTOs;
-using RiverSentry.Mobile.Services;
-
 namespace RiverSentry.Mobile.Pages;
 
 public partial class DeviceDetailPage : ContentPage
 {
-    public DeviceDetailPage(DeviceDto device, DeviceNavigationService navService)
+    public DeviceDetailPage(Guid deviceId)
     {
-        // Set the device in the service BEFORE initializing Blazor
-        navService.CurrentDevice = device;
-        navService.CloseModal = async () => await Navigation.PopModalAsync();
-
         InitializeComponent();
+
+        // Load device detail from server
+        var url = $"{AppConfig.WebBaseUrl}/device/{deviceId}?shell=mobile";
+        appWebView.LoadUrl(url);
     }
 
     private async void OnCloseTapped(object? sender, EventArgs e)
     {
-        await Navigation.PopModalAsync();
+        // Check if we're in a modal stack
+        if (Navigation.ModalStack.Count > 0)
+        {
+            await Navigation.PopModalAsync();
+        }
+        else
+        {
+            // Fall back to Shell navigation if not in modal
+            await Shell.Current.GoToAsync("..");
+        }
     }
 }
