@@ -27,18 +27,22 @@ public partial class MapPage : ContentPage
         DeviceMap.MoveToRegion(MapSpan.FromCenterAndRadius(
             new Location(30.05, -99.37),
             Distance.FromMiles(20)));
+
+        // Pre-load data immediately so it's ready when tab is shown
+        _ = PreloadDataAsync();
     }
 
-    protected override async void OnAppearing()
+    private async Task PreloadDataAsync()
+    {
+        // Small delay to let UI initialize first
+        await Task.Delay(100);
+        await LoadDevicesAsync();
+    }
+
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        // Only load if we don't have devices yet
-        if (_devices.Count == 0 && !_isLoading)
-        {
-            await LoadDevicesAsync();
-        }
-        // Otherwise, keep everything as-is (pins, zoom, position)
+        // Data is already loaded in constructor, nothing to do here
     }
 
     private async Task LoadDevicesAsync()

@@ -33,9 +33,9 @@
             <ShellContent ContentTemplate="{DataTemplate local:AlertsPage}" />
         </Tab>
 
-        <!-- Locations Tab - Blazor WebView -->
-        <Tab Title="Locations" Icon="tab_locations.png">
-            <ShellContent ContentTemplate="{DataTemplate local:LocationsPage}" />
+        <!-- More Tab - Native menu for additional options -->
+        <Tab Title="More" Icon="tab_more.png">
+            <ShellContent ContentTemplate="{DataTemplate pages:MorePage}" />
         </Tab>
     </TabBar>
 

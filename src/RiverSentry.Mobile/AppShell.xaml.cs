@@ -10,5 +10,9 @@ public partial class AppShell : Shell
 
         // Set the singleton MapPage instance to preserve state
         mapShellContent.Content = mapPage;
+
+        // Register routes for push navigation
+        Routing.RegisterRoute("locations", typeof(LocationsPage));
+        Routing.RegisterRoute("about", typeof(AboutPage));
     }
 }

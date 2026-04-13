@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RiverSentry.Mobile.Pages.MorePage"
+             Title="More"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#0d1117">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+        <!-- Logo Header - same as Dashboard -->
+        <VerticalStackLayout Grid.Row="0" Padding="0,10,0,10">
+            <Image Source="logotransparent.png"
+                   HeightRequest="80"
+                   Aspect="AspectFit"
+                   HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <!-- Divider line -->
+        <BoxView Grid.Row="1"
+                 HeightRequest="1"
+                 BackgroundColor="#30363d"
+                 Margin="16,0,16,16"/>
+
+        <!-- Menu Items -->
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout Padding="16,8" Spacing="8">
+                
+                <!-- Locations -->
+                <Border BackgroundColor="#161b22"
+                        Stroke="#30363d"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLocationsTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Label Grid.Column="0"
+                               Text="📍"
+                               FontSize="24"
+                               VerticalOptions="Center"/>
+                        <VerticalStackLayout Grid.Column="1" Margin="12,0" VerticalOptions="Center">
+                            <Label Text="Locations"
+                                   TextColor="#f0f6fc"
+                                   FontSize="16"
+                                   FontAttributes="Bold"/>
+                            <Label Text="View device families and locations"
+                                   TextColor="#8b949e"
+                                   FontSize="13"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2"
+                               Text="›"
+                               TextColor="#8b949e"
+                               FontSize="24"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+
+                <!-- About -->
+                <Border BackgroundColor="#161b22"
+                        Stroke="#30363d"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAboutTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Label Grid.Column="0"
+                               Text="ℹ️"
+                               FontSize="24"
+                               VerticalOptions="Center"/>
+                        <VerticalStackLayout Grid.Column="1" Margin="12,0" VerticalOptions="Center">
+                            <Label Text="About"
+                                   TextColor="#f0f6fc"
+                                   FontSize="16"
+                                   FontAttributes="Bold"/>
+                            <Label Text="App info and version"
+                                   TextColor="#8b949e"
+                                   FontSize="13"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2"
+                               Text="›"
+                               TextColor="#8b949e"
+                               FontSize="24"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
