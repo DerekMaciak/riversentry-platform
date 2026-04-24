@@ -39,6 +39,11 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Publish API
         run: dotnet publish src/RiverSentry.Api/RiverSentry.Api.csproj -c Release -o ./publish/api
 
@@ -46,7 +51,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: riversentry-api
-          publish-profile: ${{ secrets.AZURE_API_PUBLISH_PROFILE }}
           package: ./publish/api
 
   deploy-web:
@@ -60,6 +64,11 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Publish Web
         run: dotnet publish src/RiverSentry.Web/RiverSentry.Web.csproj -c Release -o ./publish/web
 
@@ -67,5 +76,4 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: riversentry-web
-          publish-profile: ${{ secrets.AZURE_WEB_PUBLISH_PROFILE }}
           package: ./publish/web
