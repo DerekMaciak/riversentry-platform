@@ -16,14 +16,17 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Build API
+        run: dotnet build src/RiverSentry.Api/RiverSentry.Api.csproj --configuration Release
 
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
+      - name: Build Web
+        run: dotnet build src/RiverSentry.Web/RiverSentry.Web.csproj --configuration Release
 
       - name: Test
-        run: dotnet test --no-build --configuration Release
+        run: |
+          dotnet test tests/RiverSentry.Domain.Tests/RiverSentry.Domain.Tests.csproj --configuration Release
+          dotnet test tests/RiverSentry.Application.Tests/RiverSentry.Application.Tests.csproj --configuration Release
+          dotnet test tests/RiverSentry.Api.Tests/RiverSentry.Api.Tests.csproj --configuration Release
 
   deploy-api:
     runs-on: ubuntu-latest
