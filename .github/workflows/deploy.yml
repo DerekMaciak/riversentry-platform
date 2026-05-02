@@ -45,7 +45,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Publish API
-        run: dotnet publish src/RiverSentry.Api/RiverSentry.Api.csproj -c Release -o ./publish/api
+        run: dotnet publish src/RiverSentry.Api/RiverSentry.Api.csproj -c Release -o ./publish/api --self-contained -r linux-x64
 
       - name: Deploy API to Azure
         uses: azure/webapps-deploy@v3
@@ -70,7 +70,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Publish Web
-        run: dotnet publish src/RiverSentry.Web/RiverSentry.Web.csproj -c Release -o ./publish/web
+        run: dotnet publish src/RiverSentry.Web/RiverSentry.Web.csproj -c Release -o ./publish/web --self-contained -r linux-x64
 
       - name: Deploy Web to Azure
         uses: azure/webapps-deploy@v3

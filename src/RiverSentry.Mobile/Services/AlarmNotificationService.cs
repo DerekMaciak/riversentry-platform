@@ -37,12 +37,10 @@ public class AlarmNotificationService
                 Ongoing = isUrgent,
                 AutoCancel = true,
                 VibrationPattern = GetVibrationPattern(alarmType),
-                IsInsistent = isUrgent, // Repeats sound until dismissed (like amber alert)
             },
             iOS = new Plugin.LocalNotification.iOSOption.iOSOptions
             {
                 PlayForegroundSound = true,
-                ApplyBadgeCount = true,
             }
         };
 
