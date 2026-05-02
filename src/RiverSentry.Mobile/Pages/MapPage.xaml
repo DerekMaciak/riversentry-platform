@@ -66,6 +66,7 @@
 
             <Border Grid.Column="1"
                     BackgroundColor="#CC4A90D9"
+                    Stroke="Transparent"
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 8"
                     Padding="8,0"
@@ -75,13 +76,14 @@
                             Grid.Column="0"
                             Title="Select Family"
                             TextColor="White"
-                            TitleColor="#8899AA"
+                            TitleColor="#AACCEE"
+                            BackgroundColor="Transparent"
                             FontSize="14"
                             HorizontalOptions="Fill"
                             SelectedIndexChanged="OnFamilySelected"/>
                     <Label Grid.Column="1"
                            Text="▼"
-                           TextColor="#8899AA"
+                           TextColor="White"
                            FontSize="12"
                            VerticalOptions="Center"
                            Margin="0,0,8,0"/>

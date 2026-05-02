@@ -124,7 +124,7 @@
                             </div>
                         }
                     </div>
-                    @if (_families.Count > 8)
+                    @if (_families.Count > 8 && !_isMobileShell)
                     {
                         <a href="/locations" class="view-all-link">
                             View all @_families.Count locations →

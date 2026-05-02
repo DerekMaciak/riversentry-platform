@@ -5,16 +5,19 @@ namespace RiverSentry.Mobile.Services;
 
 /// <summary>
 /// Service to send amber-alert-style local notifications for flood alarms.
-/// Plays alarm sound, vibrates aggressively, and shows high-priority notification.
+/// Plays alarm sound natively via AVAudioPlayer (iOS) or notification channel (Android),
+/// vibrates aggressively, and shows high-priority notification.
 /// </summary>
-public class AlarmNotificationService
+public partial class AlarmNotificationService
 {
     private int _notificationId = 100;
-    private CancellationTokenSource? _vibrationCts;
+    private CancellationTokenSource? _alarmCts;
+    private bool _isAlarming;
+
+    public bool IsAlarming => _isAlarming;
 
     public async Task SendAlarmNotificationAsync(string title, string message, string alarmType)
     {
-        // Request permission if needed (iOS requires this, Android 13+ also)
         if (!await LocalNotificationCenter.Current.AreNotificationsEnabled())
         {
             await LocalNotificationCenter.Current.RequestNotificationPermission();
@@ -28,7 +31,6 @@ public class AlarmNotificationService
             Title = title,
             Description = message,
             CategoryType = NotificationCategoryType.Alarm,
-            Sound = GetAlarmSound(alarmType),
             Android = new AndroidOptions
             {
                 ChannelId = "flood_alerts",
@@ -46,10 +48,9 @@ public class AlarmNotificationService
 
         await LocalNotificationCenter.Current.Show(notification);
 
-        // Start aggressive vibration pattern for urgent alerts
         if (isUrgent)
         {
-            _ = VibrateRepeatedlyAsync(alarmType);
+            _ = RunAlarmAsync(alarmType);
         }
         else
         {
@@ -57,58 +58,56 @@ public class AlarmNotificationService
         }
     }
 
-    /// <summary>
-    /// Vibrates repeatedly like an amber alert for urgent flood alarms.
-    /// </summary>
-    private async Task VibrateRepeatedlyAsync(string alarmType)
+    private async Task RunAlarmAsync(string alarmType)
     {
-        StopVibration();
-        _vibrationCts = new CancellationTokenSource();
-        var ct = _vibrationCts.Token;
+        StopAlarm();
+        _alarmCts = new CancellationTokenSource();
+        _isAlarming = true;
+        var ct = _alarmCts.Token;
 
-        var duration = alarmType == "water"
+        var vibeDuration = alarmType == "water"
             ? TimeSpan.FromMilliseconds(800)
             : TimeSpan.FromMilliseconds(500);
 
+        // Start looping audio
+        StartAlarmAudio();
+
         try
         {
-            // Vibrate aggressively for 15 seconds (like WEA alerts)
             for (var i = 0; i < 15 && !ct.IsCancellationRequested; i++)
             {
-                Vibration.Default.Vibrate(duration);
+                Vibration.Default.Vibrate(vibeDuration);
                 await Task.Delay(1000, ct);
             }
         }
         catch (OperationCanceledException) { }
         catch (FeatureNotSupportedException) { }
+        finally
+        {
+            StopAlarmAudio();
+            _isAlarming = false;
+        }
     }
 
     private static void VibrateOnce()
     {
-        try
-        {
-            Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
-        }
+        try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500)); }
         catch (FeatureNotSupportedException) { }
     }
 
-    public void StopVibration()
+    public void StopAlarm()
     {
-        _vibrationCts?.Cancel();
-        _vibrationCts?.Dispose();
-        _vibrationCts = null;
+        _alarmCts?.Cancel();
+        _alarmCts?.Dispose();
+        _alarmCts = null;
+        _isAlarming = false;
+        StopAlarmAudio();
         try { Vibration.Default.Cancel(); } catch { }
     }
 
-    private static string GetAlarmSound(string alarmType)
-    {
-        return alarmType switch
-        {
-            // Use system alarm sound for urgent alerts
-            "water" or "upstream" => "Default",
-            _ => "Default"
-        };
-    }
+    // Platform-specific audio methods — implemented via partial methods
+    partial void StartAlarmAudio();
+    partial void StopAlarmAudio();
 
     public async Task SendWaterAlarmAsync(string deviceName)
     {
@@ -136,7 +135,6 @@ public class AlarmNotificationService
 
     private static long[] GetVibrationPattern(string alarmType)
     {
-        // Aggressive amber-alert-style vibration patterns
         return alarmType switch
         {
             "water" => [0, 1000, 200, 1000, 200, 1000, 200, 1000, 200, 1000],

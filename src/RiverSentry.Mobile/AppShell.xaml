@@ -33,9 +33,13 @@
             <ShellContent ContentTemplate="{DataTemplate local:AlertsPage}" />
         </Tab>
 
-        <!-- More Tab - Native menu for additional options -->
-        <Tab Title="More" Icon="tab_more.png">
-            <ShellContent ContentTemplate="{DataTemplate pages:MorePage}" />
+        <!-- About Tab - shown directly when only one overflow item exists.
+             When Locations is re-enabled, swap this back to MorePage:
+             <Tab Title="More" Icon="tab_more.png">
+                 <ShellContent ContentTemplate="{DataTemplate pages:MorePage}" />
+             </Tab> -->
+        <Tab Title="About" Icon="tab_about.png">
+            <ShellContent ContentTemplate="{DataTemplate pages:AboutPage}" />
         </Tab>
     </TabBar>
 

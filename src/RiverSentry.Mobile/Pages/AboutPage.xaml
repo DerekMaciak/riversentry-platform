@@ -7,8 +7,9 @@
              BackgroundColor="#0d1117">
 
     <Grid RowDefinitions="Auto,*">
-        <!-- Back button -->
-        <Border Grid.Row="0"
+        <!-- Back button (hidden when shown as a top-level tab) -->
+        <Border x:Name="BackButton"
+                Grid.Row="0"
                 HorizontalOptions="Start"
                 VerticalOptions="Start"
                 Margin="16,8"

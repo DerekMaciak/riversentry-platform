@@ -27,6 +27,8 @@ public class CustomAnnotation : MKPointAnnotation
 public class CustomMapHandler : MapHandler
 {
     private MKMapView? _mapView;
+    private UIImage? _cachedDeviceIcon;
+    private readonly Dictionary<DeviceState, UIImage> _compositeCache = new();
 
     public static new IPropertyMapper<IMap, IMapHandler> Mapper = new PropertyMapper<IMap, IMapHandler>(MapHandler.Mapper)
     {
@@ -77,13 +79,11 @@ public class CustomMapHandler : MapHandler
             annotationView.Annotation = annotation;
             annotationView.CanShowCallout = false;
 
-            if (customAnnotation.Image != null && customAnnotation.Pin != null)
+            if (customAnnotation.Image != null)
             {
-                var compositeImage = CreateCompositeMarker(
-                    customAnnotation.Image,
-                    customAnnotation.Pin.DeviceState);
-                annotationView.Image = compositeImage;
-                annotationView.CenterOffset = new CGPoint(0, -20);
+                // Image is already the fully composited marker (icon + badge) from cache
+                annotationView.Image = customAnnotation.Image;
+                annotationView.CenterOffset = new CGPoint(0, -25);
             }
 
             return annotationView;
@@ -94,9 +94,9 @@ public class CustomMapHandler : MapHandler
 
     private static UIImage CreateCompositeMarker(UIImage iconImage, DeviceState deviceState)
     {
-        const float iconSize = 40f;
+        const float iconSize = 56f;
         const float spacing = 2f;
-        const float statusFontSize = 9f;
+        const float statusFontSize = 12f;
         const float badgePaddingH = 6f;
         const float badgePaddingV = 3f;
 
@@ -165,56 +165,88 @@ public class CustomMapHandler : MapHandler
         _ => UIColor.White
     };
 
+    private CancellationTokenSource? _pinUpdateCts;
+
     private async void UpdatePins(IMap map)
     {
-        if (PlatformView is not MKMapView mapView)
-            return;
+        // Cancel any pending update — this is the key to avoiding freezes.
+        // When pins are removed/added one by one, each change fires this method.
+        // The debounce ensures only the LAST call actually does work.
+        _pinUpdateCts?.Cancel();
+        _pinUpdateCts = new CancellationTokenSource();
+        var token = _pinUpdateCts.Token;
 
-        var existingAnnotations = mapView.Annotations;
-        if (existingAnnotations != null)
+        try
         {
-            foreach (var annotation in existingAnnotations.OfType<CustomAnnotation>())
+            // Wait briefly to let all rapid-fire collection changes finish
+            await Task.Delay(30, token);
+            if (token.IsCancellationRequested) return;
+
+            if (PlatformView is not MKMapView mapView)
+                return;
+
+            // Snapshot the pins we need to show
+            var pinsToAdd = map.Pins.OfType<CustomPin>().ToList();
+
+            // Remove all existing custom annotations in one batch
+            var existingAnnotations = mapView.Annotations?.OfType<CustomAnnotation>().ToArray();
+            if (existingAnnotations is { Length: > 0 })
             {
-                mapView.RemoveAnnotation(annotation);
+                mapView.RemoveAnnotations(existingAnnotations);
             }
+
+            // Load the device icon once and cache it
+            if (_cachedDeviceIcon == null)
+            {
+                var firstPin = pinsToAdd.FirstOrDefault(p => p.ImageSource != null);
+                if (firstPin?.ImageSource != null)
+                {
+                    _cachedDeviceIcon = await LoadImageFromSourceAsync(firstPin.ImageSource);
+                }
+            }
+
+            // Build annotations synchronously using cached images
+            var annotations = new CustomAnnotation[pinsToAdd.Count];
+            for (var i = 0; i < pinsToAdd.Count; i++)
+            {
+                var pin = pinsToAdd[i];
+                annotations[i] = new CustomAnnotation
+                {
+                    Title = pin.Label,
+                    Subtitle = pin.Address,
+                    Coordinate = new CLLocationCoordinate2D(pin.Location.Latitude, pin.Location.Longitude),
+                    Pin = pin,
+                    Image = GetCachedCompositeMarker(pin.DeviceState)
+                };
+            }
+
+            if (token.IsCancellationRequested) return;
+
+            // Add all annotations in one batch on the UI thread
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                mapView.AddAnnotations(annotations);
+            });
         }
-
-        foreach (var pin in map.Pins)
+        catch (TaskCanceledException)
         {
-            if (pin is CustomPin customPin)
-            {
-                await AddCustomPinAsync(customPin, mapView);
-            }
+            // Expected when debouncing — a newer update superseded this one
         }
     }
 
-    private async Task AddCustomPinAsync(CustomPin pin, MKMapView mapView)
-    {
-        var annotation = new CustomAnnotation
-        {
-            Title = pin.Label,
-            Subtitle = pin.Address,
-            Coordinate = new CLLocationCoordinate2D(pin.Location.Latitude, pin.Location.Longitude),
-            Pin = pin
-        };
 
-        if (pin.ImageSource != null)
+    private UIImage? GetCachedCompositeMarker(DeviceState state)
+    {
+        if (_cachedDeviceIcon == null)
+            return null;
+
+        if (!_compositeCache.TryGetValue(state, out var composite))
         {
-            try
-            {
-                var image = await LoadImageFromSourceAsync(pin.ImageSource);
-                annotation.Image = image;
-            }
-            catch
-            {
-                // Use default annotation if image fails to load
-            }
+            composite = CreateCompositeMarker(_cachedDeviceIcon, state);
+            _compositeCache[state] = composite;
         }
 
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            mapView.AddAnnotation(annotation);
-        });
+        return composite;
     }
 
     private async Task<UIImage?> LoadImageFromSourceAsync(ImageSource imageSource)

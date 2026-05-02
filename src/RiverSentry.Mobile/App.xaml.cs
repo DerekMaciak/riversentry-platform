@@ -14,13 +14,13 @@ public partial class App : Application
         _appShell = appShell;
         _alarmService = alarmService;
 
-        // Stop vibration/sound when user interacts with the notification
+        // Stop alarm when user taps the notification
         LocalNotificationCenter.Current.NotificationActionTapped += OnNotificationActionTapped;
     }
 
     private void OnNotificationActionTapped(Plugin.LocalNotification.EventArgs.NotificationActionEventArgs e)
     {
-        _alarmService.StopVibration();
+        _alarmService.StopAlarm();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
