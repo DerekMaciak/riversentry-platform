@@ -11,9 +11,10 @@ public class AppDelegate : MauiUIApplicationDelegate
 
     public override bool FinishedLaunching(UIApplication application, NSDictionary? launchOptions)
     {
-        // Request notification permissions for iOS
+        // Request notification permissions including critical alerts (amber alert style)
+        // Note: CriticalAlert requires an Apple entitlement - falls back to normal alerts if not granted
         UNUserNotificationCenter.Current.RequestAuthorization(
-            UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound,
+            UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound | UNAuthorizationOptions.CriticalAlert,
             (granted, error) =>
             {
                 if (granted)

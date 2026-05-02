@@ -136,15 +136,15 @@
 
         <!-- Quick Actions -->
         <div class="quick-actions">
-            <a href="/map" class="quick-action-btn" @onclick="() => NavigateTo("map")" @onclick:preventDefault="_isMobileShell">
+            <a href="/map" class="quick-action-btn" @onclick='() => NavigateTo("map")' @onclick:preventDefault="_isMobileShell">
                 <i class="oi oi-map"></i>
                 <span>View Map</span>
             </a>
-            <a href="/alarms" class="quick-action-btn" @onclick="() => NavigateTo("alarms")" @onclick:preventDefault="_isMobileShell">
+            <a href="/alarms" class="quick-action-btn" @onclick='() => NavigateTo("alarms")' @onclick:preventDefault="_isMobileShell">
                 <i class="oi oi-bell"></i>
                 <span>Alarms</span>
             </a>
-            <a href="/devices" class="quick-action-btn" @onclick="() => NavigateTo("devices")" @onclick:preventDefault="_isMobileShell">
+            <a href="/devices" class="quick-action-btn" @onclick='() => NavigateTo("devices")' @onclick:preventDefault="_isMobileShell">
                 <i class="oi oi-pulse"></i>
                 <span>All Devices</span>
             </a>

@@ -20,7 +20,7 @@ public class MainActivity : MauiAppCompatActivity
         if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
         {
 #pragma warning disable CA1416 // Validate platform compatibility - guarded by API level check above
-            // Use system alarm sound for urgent flood alerts
+            // Use system alarm sound for urgent flood alerts (amber alert style)
             var alarmSound = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
             var audioAttributes = new AudioAttributes.Builder()
                 .SetUsage(AudioUsageKind.Alarm)!
@@ -30,14 +30,17 @@ public class MainActivity : MauiAppCompatActivity
             var channel = new NotificationChannel(
                 "flood_alerts",
                 "Flood Alerts",
-                NotificationImportance.High)
+                NotificationImportance.Max)  // Max importance for heads-up display
             {
-                Description = "Critical flood alert notifications"
+                Description = "Critical flood alert notifications - plays alarm sound and vibrates like emergency alerts",
+                LockscreenVisibility = NotificationVisibility.Public
             };
 
             channel.EnableVibration(true);
             channel.EnableLights(true);
+            channel.LightColor = unchecked((int)0xFFFF0000); // Red
             channel.SetSound(alarmSound, audioAttributes);
+            channel.SetBypassDnd(true); // Bypass Do Not Disturb
 
             var notificationManager = GetSystemService(NotificationService) as NotificationManager;
             notificationManager?.CreateNotificationChannel(channel);

@@ -4,12 +4,13 @@ using Plugin.LocalNotification.AndroidOption;
 namespace RiverSentry.Mobile.Services;
 
 /// <summary>
-/// Service to send local notifications for alarm simulation and real alerts.
-/// Works on both Android and iOS.
+/// Service to send amber-alert-style local notifications for flood alarms.
+/// Plays alarm sound, vibrates aggressively, and shows high-priority notification.
 /// </summary>
 public class AlarmNotificationService
 {
     private int _notificationId = 100;
+    private CancellationTokenSource? _vibrationCts;
 
     public async Task SendAlarmNotificationAsync(string title, string message, string alarmType)
     {
@@ -18,6 +19,8 @@ public class AlarmNotificationService
         {
             await LocalNotificationCenter.Current.RequestNotificationPermission();
         }
+
+        var isUrgent = alarmType is "water" or "upstream";
 
         var notification = new NotificationRequest
         {
@@ -31,25 +34,80 @@ public class AlarmNotificationService
                 ChannelId = "flood_alerts",
                 Priority = AndroidPriority.High,
                 VisibilityType = AndroidVisibilityType.Public,
-                Ongoing = false,
+                Ongoing = isUrgent,
                 AutoCancel = true,
                 VibrationPattern = GetVibrationPattern(alarmType),
+                IsInsistent = isUrgent, // Repeats sound until dismissed (like amber alert)
             },
             iOS = new Plugin.LocalNotification.iOSOption.iOSOptions
             {
                 PlayForegroundSound = true,
+                ApplyBadgeCount = true,
             }
         };
 
         await LocalNotificationCenter.Current.Show(notification);
+
+        // Start aggressive vibration pattern for urgent alerts
+        if (isUrgent)
+        {
+            _ = VibrateRepeatedlyAsync(alarmType);
+        }
+        else
+        {
+            VibrateOnce();
+        }
+    }
+
+    /// <summary>
+    /// Vibrates repeatedly like an amber alert for urgent flood alarms.
+    /// </summary>
+    private async Task VibrateRepeatedlyAsync(string alarmType)
+    {
+        StopVibration();
+        _vibrationCts = new CancellationTokenSource();
+        var ct = _vibrationCts.Token;
+
+        var duration = alarmType == "water"
+            ? TimeSpan.FromMilliseconds(800)
+            : TimeSpan.FromMilliseconds(500);
+
+        try
+        {
+            // Vibrate aggressively for 15 seconds (like WEA alerts)
+            for (var i = 0; i < 15 && !ct.IsCancellationRequested; i++)
+            {
+                Vibration.Default.Vibrate(duration);
+                await Task.Delay(1000, ct);
+            }
+        }
+        catch (OperationCanceledException) { }
+        catch (FeatureNotSupportedException) { }
+    }
+
+    private static void VibrateOnce()
+    {
+        try
+        {
+            Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500));
+        }
+        catch (FeatureNotSupportedException) { }
+    }
+
+    public void StopVibration()
+    {
+        _vibrationCts?.Cancel();
+        _vibrationCts?.Dispose();
+        _vibrationCts = null;
+        try { Vibration.Default.Cancel(); } catch { }
     }
 
     private static string GetAlarmSound(string alarmType)
     {
-        // Use system alarm sound for urgent alerts, default for test
         return alarmType switch
         {
-            "water" or "upstream" => "Default", // System will use alarm channel sound
+            // Use system alarm sound for urgent alerts
+            "water" or "upstream" => "Default",
             _ => "Default"
         };
     }
@@ -58,15 +116,15 @@ public class AlarmNotificationService
     {
         await SendAlarmNotificationAsync(
             "⚠️ WATER ALARM",
-            $"{deviceName} has detected rising water levels!",
+            $"{deviceName} has detected rising water levels! Seek higher ground immediately.",
             "water");
     }
 
     public async Task SendUpstreamAlarmAsync(string deviceName)
     {
         await SendAlarmNotificationAsync(
-            "⚠️ UPSTREAM ALARM", 
-            $"{deviceName} received upstream flood warning!",
+            "⚠️ UPSTREAM ALARM",
+            $"{deviceName} received upstream flood warning! Take action now.",
             "upstream");
     }
 
@@ -80,11 +138,12 @@ public class AlarmNotificationService
 
     private static long[] GetVibrationPattern(string alarmType)
     {
+        // Aggressive amber-alert-style vibration patterns
         return alarmType switch
         {
-            "water" => new long[] { 0, 500, 200, 500, 200, 500 },      // Urgent pattern
-            "upstream" => new long[] { 0, 300, 200, 300, 200, 300 },  // Warning pattern  
-            _ => new long[] { 0, 250, 250, 250 }                       // Default pattern
+            "water" => [0, 1000, 200, 1000, 200, 1000, 200, 1000, 200, 1000],
+            "upstream" => [0, 800, 200, 800, 200, 800, 200, 800, 200, 800],
+            _ => [0, 500, 250, 500]
         };
     }
 }

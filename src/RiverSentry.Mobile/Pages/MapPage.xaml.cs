@@ -116,13 +116,20 @@ public partial class MapPage : ContentPage
             _filteredDevices = _devices.Where(d => d.FamilyName == _selectedFamily).ToList();
         }
 
-        UpdateMapPins();
-        CenterMapOnDevices();
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            UpdateMapPins();
+            CenterMapOnDevices();
+        });
     }
 
     private void UpdateMapPins()
     {
-        DeviceMap.Pins.Clear();
+        // Remove pins one at a time to avoid iOS map annotation crash
+        while (DeviceMap.Pins.Count > 0)
+        {
+            DeviceMap.Pins.RemoveAt(DeviceMap.Pins.Count - 1);
+        }
 
         foreach (var device in _filteredDevices)
         {
