@@ -140,6 +140,15 @@ public partial class AppWebView : ContentView
             case "notification":
                 await HandleNotification(type, query["device"] ?? "Device");
                 break;
+            case "tab":
+                await MainThread.InvokeOnMainThreadAsync(() => SwitchToTab(type));
+                break;
+            case "device":
+                if (Guid.TryParse(type, out var deviceId))
+                {
+                    OpenDeviceDetail(deviceId);
+                }
+                break;
         }
     }
 
@@ -149,6 +158,24 @@ public partial class AppWebView : ContentView
         if (currentPage?.Navigation.ModalStack.Count > 0)
         {
             await currentPage.Navigation.PopModalAsync();
+        }
+    }
+
+    private static void SwitchToTab(string tabName)
+    {
+        // Map tab names from web to Shell tab indices
+        var tabIndex = tabName switch
+        {
+            "map" => 1,
+            "devices" => 2,
+            "alarms" => 3,
+            "more" => 4,
+            _ => 0 // home
+        };
+
+        if (Shell.Current?.Items.FirstOrDefault() is TabBar tabBar && tabIndex < tabBar.Items.Count)
+        {
+            tabBar.CurrentItem = tabBar.Items[tabIndex];
         }
     }
 

@@ -13,32 +13,16 @@
         <div class="alarm-buttons">
             <button class="alarm-btn alarm-btn-warning @(_activeAlarm == AlarmType.FloodWarning ? "active" : "")"
                     @onclick="() => ToggleAlarm(AlarmType.FloodWarning)">
-                <span class="alarm-icon">⚠️</span>
-                <span class="alarm-label">Flood Warning</span>
-                @if (_activeAlarm == AlarmType.FloodWarning)
-                {
-                    <span class="alarm-playing">Playing...</span>
-                }
+                <span class="alarm-icon">@(_activeAlarm == AlarmType.FloodWarning ? "⏹" : "⚠️")</span>
+                <span class="alarm-label">@(_activeAlarm == AlarmType.FloodWarning ? "Stop Flood Warning" : "Flood Warning")</span>
             </button>
 
             <button class="alarm-btn alarm-btn-critical @(_activeAlarm == AlarmType.HighWaterAlarm ? "active" : "")"
                     @onclick="() => ToggleAlarm(AlarmType.HighWaterAlarm)">
-                <span class="alarm-icon">🚨</span>
-                <span class="alarm-label">High Water Alarm</span>
-                @if (_activeAlarm == AlarmType.HighWaterAlarm)
-                {
-                    <span class="alarm-playing">Playing...</span>
-                }
+                <span class="alarm-icon">@(_activeAlarm == AlarmType.HighWaterAlarm ? "⏹" : "🚨")</span>
+                <span class="alarm-label">@(_activeAlarm == AlarmType.HighWaterAlarm ? "Stop High Water Alarm" : "High Water Alarm")</span>
             </button>
         </div>
-
-        @if (_activeAlarm.HasValue)
-        {
-            <button class="alarm-btn alarm-btn-stop" @onclick="StopAlarm">
-                <span class="alarm-icon">⏹</span>
-                <span class="alarm-label">Stop</span>
-            </button>
-        }
     </div>
 
     <div class="notification-section">

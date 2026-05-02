@@ -7,31 +7,28 @@
              Shell.NavBarIsVisible="False"
              BackgroundColor="#0d1117">
 
-    <AbsoluteLayout>
+    <Grid>
         <!-- WebView fills entire page -->
         <controls:AppWebView x:Name="appWebView"
-                             InterceptDeviceDetail="False"
-                             AbsoluteLayout.LayoutFlags="All"
-                             AbsoluteLayout.LayoutBounds="0,0,1,1" />
+                             InterceptDeviceDetail="False" />
 
         <!-- Close button in top-right corner -->
-        <Border AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds="0.95,0.02,36,36"
+        <Button Text="✕"
+                Clicked="OnCloseTapped"
                 WidthRequest="36"
                 HeightRequest="36"
-                StrokeShape="RoundRectangle 18"
+                CornerRadius="18"
+                Padding="0"
+                FontSize="16"
+                TextColor="#8b949e"
                 BackgroundColor="#21262d"
-                Stroke="#30363d"
-                StrokeThickness="1">
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Tapped="OnCloseTapped"/>
-            </Border.GestureRecognizers>
-            <Label Text="✕"
-                   FontSize="16"
-                   TextColor="#8b949e"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"/>
-        </Border>
-    </AbsoluteLayout>
+                BorderColor="#30363d"
+                BorderWidth="1"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                Margin="0,8,12,0"
+                ZIndex="1"
+                InputTransparent="False" />
+    </Grid>
 
 </ContentPage>

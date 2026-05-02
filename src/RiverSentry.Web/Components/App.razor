@@ -74,6 +74,11 @@
             // This triggers a navigation that the native WebView intercepts
             window.location.href = 'app://notification/' + type + '?device=' + encodeURIComponent(deviceName);
         };
+
+        // Bridge to native app for tab switching
+        window.switchNativeTab = function(tabName) {
+            window.location.href = 'app://tab/' + tabName;
+        };
     </script>
 </body>
 

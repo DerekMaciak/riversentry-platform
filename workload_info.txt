@@ -1,0 +1,146 @@
+
+Installed Workload Id      Manifest Version       Installation Source          
+-------------------------------------------------------------------------------
+android                    35.0.105/9.0.100       SDK 9.0.300, VS 17.14.36717.8
+ios                        26.2.9000/9.0.100      SDK 9.0.300, VS 17.14.36717.8
+maccatalyst                26.2.9000/9.0.100      SDK 9.0.300, VS 17.14.36717.8
+maui                       9.0.120/9.0.100        SDK 9.0.300                  
+maui-windows               9.0.120/9.0.100        SDK 9.0.300, VS 17.14.36717.8
+
+Use `dotnet workload search` to find additional workloads to install.
+
+Updates are available for the following workload(s): ios maccatalyst maui. Run `dotnet workload update` to get the latest.
+
+9.0.308 [C:\Program Files\dotnet\sdk]
+9.0.313 [C:\Program Files\dotnet\sdk]
+10.0.100 [C:\Program Files\dotnet\sdk]
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows
+C:\Program Files\dotnet\packs\Microsoft.Android.Ref.35\35.0.105\analyzers\dotnet\cs\Microsoft.Android.Sdk.Analysis.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Ref.35\35.0.78\analyzers\dotnet\cs\Microsoft.Android.Sdk.Analysis.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Ref.36\36.1.2\analyzers\dotnet\cs\Microsoft.Android.Sdk.Analysis.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.After.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.AndroidLibraries.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.Aot.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.Application.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.AssemblyResolution.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.BuildOrder.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.BundledVersions.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.DefaultProperties.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.ILLink.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.ProjectCapabilities.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.Publish.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.RuntimeConfig.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.SupportedPlatforms.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\targets\Microsoft.Android.Sdk.Tooling.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\Microsoft.Android.Sdk.ILLink.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\Microsoft.Android.Sdk.ILLink.pdb
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\cs\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\de\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\es\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\fr\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\it\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\ja\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\ko\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\pl\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\pt-BR\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\ru\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\tr\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\zh-Hans\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\34.0.154\tools\zh-Hant\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.After.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.AndroidLibraries.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.Aot.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.Application.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.AssemblyResolution.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.BuildOrder.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.BundledVersions.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.DefaultProperties.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.ILLink.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.ProjectCapabilities.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.Publish.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.RuntimeConfig.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.SupportedPlatforms.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\targets\Microsoft.Android.Sdk.Tooling.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\Microsoft.Android.Sdk.Bindings.Gradle.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\Microsoft.Android.Sdk.ILLink.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\Microsoft.Android.Sdk.ILLink.pdb
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\cs\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\de\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\es\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\fr\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\it\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\ja\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\ko\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\pl\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\pt-BR\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\ru\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\tr\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\zh-Hans\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.105\tools\zh-Hant\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.After.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.AndroidLibraries.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.Aot.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.Application.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.AssemblyResolution.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.BuildOrder.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.BundledVersions.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.DefaultProperties.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.ILLink.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.ProjectCapabilities.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.Publish.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.RuntimeConfig.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.SupportedPlatforms.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\targets\Microsoft.Android.Sdk.Tooling.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\Microsoft.Android.Sdk.Bindings.Gradle.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\Microsoft.Android.Sdk.ILLink.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\Microsoft.Android.Sdk.ILLink.pdb
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\cs\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\de\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\es\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\fr\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\it\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\ja\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\ko\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\pl\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\pt-BR\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\ru\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\tr\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\zh-Hans\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\35.0.78\tools\zh-Hant\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.After.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.AndroidLibraries.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.Aot.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.Application.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.AssemblyResolution.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.BuildOrder.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.BundledVersions.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.CoreCLR.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.DefaultProperties.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.ILLink.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.MonoVM.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.NativeAOT.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.NativeRuntime.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.ProjectCapabilities.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.Publish.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.RuntimeConfig.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.SupportedPlatforms.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\targets\Microsoft.Android.Sdk.Tooling.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\Microsoft.Android.Sdk.Bindings.Gradle.targets
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\Microsoft.Android.Sdk.ILLink.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\cs\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\de\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\es\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\fr\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\it\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\ja\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\ko\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\pl\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\pt-BR\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\ru\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\tr\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\zh-Hans\Microsoft.Android.Sdk.ILLink.resources.dll
+C:\Program Files\dotnet\packs\Microsoft.Android.Sdk.Windows\36.1.2\tools\zh-Hant\Microsoft.Android.Sdk.ILLink.resources.dll

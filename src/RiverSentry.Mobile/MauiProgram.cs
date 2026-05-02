@@ -25,17 +25,19 @@ public static class MauiProgram
                 handlers.AddHandler<Microsoft.Maui.Controls.Maps.Map, RiverSentry.Mobile.Platforms.Android.Handlers.CustomMapHandler>();
                 handlers.AddHandler<WebView, RiverSentry.Mobile.Platforms.Android.Handlers.CustomWebViewHandler>();
 #elif IOS
+                handlers.AddHandler<Microsoft.Maui.Controls.Maps.Map, RiverSentry.Mobile.Platforms.iOS.Handlers.CustomMapHandler>();
                 handlers.AddHandler<WebView, RiverSentry.Mobile.Platforms.iOS.Handlers.CustomWebViewHandler>();
 #endif
             });
 
         // API client with HTTPS
-        // Use 10.0.2.2 for Android emulator, localhost for Windows
-#if ANDROID
-        var apiBaseUrl = "https://10.0.2.2:7010";
-#else
-        var apiBaseUrl = "https://localhost:7010";
-#endif
+        // TODO: Uncomment localhost lines and comment production line to test locally
+        // #if ANDROID
+        //         var apiBaseUrl = "https://10.0.2.2:7010";
+        // #else
+        //         var apiBaseUrl = "https://localhost:7010";
+        // #endif
+        var apiBaseUrl = "https://riversentry-api.azurewebsites.net";
         builder.Services.AddHttpClient<IRiverSentryApiClient, RiverSentryApiClient>(client =>
         {
             client.BaseAddress = new Uri(apiBaseUrl);

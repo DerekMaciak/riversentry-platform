@@ -211,31 +211,68 @@ public class CustomMapHandler : MapHandler
     private Bitmap? CreateCompositeMarker(Bitmap iconBitmap, string label, string status, DeviceState deviceState)
     {
         const int iconSize = 120;
-        const int dotSize = 28;
         const int spacing = 6;
+        const float textSize = 30f;
+        const int badgePaddingH = 14;
+        const int badgePaddingV = 8;
 
-        var width = iconSize;
-        var height = iconSize + spacing + dotSize;
+        var statusText = GetStatusText(deviceState);
+        var statusColor = GetStatusColor(deviceState);
+
+        // Measure text to size the badge
+        using var textPaint = new global::Android.Graphics.Paint(PaintFlags.AntiAlias)
+        {
+            Color = global::Android.Graphics.Color.White,
+            TextSize = textSize,
+            TextAlign = global::Android.Graphics.Paint.Align.Center
+        };
+        textPaint.SetTypeface(Typeface.DefaultBold);
+
+        var textWidth = textPaint.MeasureText(statusText);
+        var badgeWidth = (int)(textWidth + badgePaddingH * 2);
+        var badgeHeight = (int)(textSize + badgePaddingV * 2);
+
+        var width = (int)Math.Max(iconSize, badgeWidth);
+        var height = iconSize + spacing + badgeHeight;
 
         var result = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888!);
         if (result == null) return null;
 
         using var canvas = new Canvas(result);
+        var centerX = width / 2f;
 
-        // Draw device icon scaled to fit
+        // Draw device icon scaled to fit, centered
         var srcRect = new global::Android.Graphics.Rect(0, 0, iconBitmap.Width, iconBitmap.Height);
-        var dstRect = new global::Android.Graphics.Rect(0, 0, iconSize, iconSize);
+        var iconLeft = (int)(centerX - iconSize / 2f);
+        var dstRect = new global::Android.Graphics.Rect(iconLeft, 0, iconLeft + iconSize, iconSize);
         using var paint = new global::Android.Graphics.Paint(PaintFlags.AntiAlias | PaintFlags.FilterBitmap);
         canvas.DrawBitmap(iconBitmap, srcRect, dstRect, paint);
 
-        // Draw status dot centered below icon
-        var statusColor = GetStatusColor(deviceState);
-        using var dotPaint = new global::Android.Graphics.Paint(PaintFlags.AntiAlias) { Color = statusColor };
-        dotPaint.SetStyle(global::Android.Graphics.Paint.Style.Fill);
-        canvas.DrawCircle(width / 2f, iconSize + spacing + dotSize / 2f, dotSize / 2f, dotPaint);
+        // Draw rounded badge below icon
+        using var badgePaint = new global::Android.Graphics.Paint(PaintFlags.AntiAlias) { Color = statusColor };
+        badgePaint.SetStyle(global::Android.Graphics.Paint.Style.Fill);
+        var badgeLeft = centerX - badgeWidth / 2f;
+        var badgeTop = iconSize + spacing;
+        var badgeRect = new global::Android.Graphics.RectF(badgeLeft, badgeTop, badgeLeft + badgeWidth, badgeTop + badgeHeight);
+        canvas.DrawRoundRect(badgeRect, badgeHeight / 2f, badgeHeight / 2f, badgePaint);
+
+        // Draw text centered in badge
+        var textY = badgeTop + badgeHeight / 2f - (textPaint.Descent() + textPaint.Ascent()) / 2f;
+        canvas.DrawText(statusText, centerX, textY, textPaint);
 
         return result;
     }
+
+    private static string GetStatusText(DeviceState state) => state switch
+    {
+        DeviceState.Armed => "Armed",
+        DeviceState.AlarmWater => "Water",
+        DeviceState.AlarmUpstream => "Upstream",
+        DeviceState.AlarmSilent => "Silent",
+        DeviceState.AlarmDrill => "Drill",
+        DeviceState.Offline => "Offline",
+        _ => "Unknown"
+    };
 
     private static global::Android.Graphics.Color GetStatusColor(DeviceState state) => state switch
     {

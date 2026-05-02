@@ -13,8 +13,8 @@
        BackgroundColor="#0d1117">
 
     <TabBar>
-        <!-- Dashboard Tab - Blazor WebView -->
-        <Tab Title="Dashboard" Icon="tab_dashboard.png">
+        <!-- Home Tab - Blazor WebView -->
+        <Tab Title="Home" Icon="tab_dashboard.png">
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
         </Tab>
 

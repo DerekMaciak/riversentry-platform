@@ -80,7 +80,7 @@ public partial class MapPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to load devices: {ex.Message}", "OK");
+            await DisplayAlertAsync("Error", $"Failed to load devices: {ex.Message}", "OK");
         }
         finally
         {

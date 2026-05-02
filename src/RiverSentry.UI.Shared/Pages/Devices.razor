@@ -123,8 +123,8 @@
             var isMobileShell = Nav.Uri.Contains("shell=mobile");
             if (isMobileShell)
             {
-                // Navigate using URL which native app will intercept
-                await JS.InvokeVoidAsync("eval", $"window.location.href = '/device/{device.Id}'");
+                // Use app:// bridge so native WebView intercepts and opens DeviceDetailPage
+                await JS.InvokeVoidAsync("eval", $"window.location.href = 'app://device/{device.Id}'");
             }
             else
             {

@@ -1,0 +1,85 @@
+Build started 4/27/2026 11:26:23 AM.
+     1>Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" on node 1 (Restore target(s)).
+     1>_GetAllRestoreProjectPathItems:
+         Determining projects to restore...
+     1>Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (1) is building "C:\github\riversentry-platform\src\RiverSentry.Contracts\RiverSentry.Contracts.csproj" (3:5) on node 2 (_GenerateProjectRestoreGraph target(s)).
+     3>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0\data\PackageOverrides.txt
+     1>Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (1) is building "C:\github\riversentry-platform\src\RiverSentry.UI.Shared\RiverSentry.UI.Shared.csproj" (2:4) on node 1 (_GenerateProjectRestoreGraph target(s)).
+     2>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+     3>Done Building Project "C:\github\riversentry-platform\src\RiverSentry.Contracts\RiverSentry.Contracts.csproj" (_GenerateProjectRestoreGraph target(s)).
+     2>AddPrunePackageReferences:
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0\data\PackageOverrides.txt
+     2>Done Building Project "C:\github\riversentry-platform\src\RiverSentry.UI.Shared\RiverSentry.UI.Shared.csproj" (_GenerateProjectRestoreGraph target(s)).
+     1>Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (1) is building "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (1:12) on node 1 (_GenerateProjectRestoreGraph target(s)).
+  1:12>Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (1:12) is building "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (1:16) on node 1 (_GenerateProjectRestoreGraphPerFramework target(s)).
+     1>ProcessFrameworkReferences:
+       C:\Program Files\dotnet\sdk\10.0.100\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets(190,5): message NETSDK1084: There is no application host available for the specified RuntimeIdentifier 'android-arm64'. [C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj::TargetFramework=net10.0-android]
+       C:\Program Files\dotnet\sdk\10.0.100\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets(190,5): message NETSDK1084: There is no application host available for the specified RuntimeIdentifier 'android-x64'. [C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj::TargetFramework=net10.0-android]
+       AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0\data\PackageOverrides.txt
+     1>Done Building Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (_GenerateProjectRestoreGraphPerFramework target(s)).
+  1:12>Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (1:12) is building "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (1:17) on node 1 (_GenerateProjectRestoreGraphPerFramework target(s)).
+     1>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0\data\PackageOverrides.txt
+     1>Done Building Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (_GenerateProjectRestoreGraphPerFramework target(s)).
+  1:12>Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (1:12) is building "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (1:18) on node 1 (_GenerateProjectRestoreGraphPerFramework target(s)).
+     1>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.0\data\PackageOverrides.txt
+     1>Done Building Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (_GenerateProjectRestoreGraphPerFramework target(s)).
+     1>Done Building Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (_GenerateProjectRestoreGraph target(s)).
+     1>Restore:
+         X.509 certificate chain validation will use the default trust store selected by .NET for code signing.
+         X.509 certificate chain validation will use the default trust store selected by .NET for timestamping.
+         Assets file has not changed. Skipping assets file writing. Path: C:\github\riversentry-platform\src\RiverSentry.Domain\obj\project.assets.json
+         Assets file has not changed. Skipping assets file writing. Path: C:\github\riversentry-platform\src\RiverSentry.Contracts\obj\project.assets.json
+         Assets file has not changed. Skipping assets file writing. Path: C:\github\riversentry-platform\src\RiverSentry.UI.Shared\obj\project.assets.json
+         Restored C:\github\riversentry-platform\src\RiverSentry.Contracts\RiverSentry.Contracts.csproj (in 36 ms).
+         Restored C:\github\riversentry-platform\src\RiverSentry.Domain\RiverSentry.Domain.csproj (in 36 ms).
+         Restored C:\github\riversentry-platform\src\RiverSentry.UI.Shared\RiverSentry.UI.Shared.csproj (in 36 ms).
+     1>C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj : warning NU1904: Package 'System.Drawing.Common' 4.7.0 has a known critical severity vulnerability, https://github.com/advisories/GHSA-rxg9-xrhp-64gj
+         Assets file has not changed. Skipping assets file writing. Path: C:\github\riversentry-platform\src\RiverSentry.Mobile\obj\project.assets.json
+         Restored C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj (in 64 ms).
+         
+         NuGet Config files used:
+             C:\Users\derek\AppData\Roaming\NuGet\NuGet.Config
+             C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.FallbackLocation.config
+             C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.Offline.config
+         
+         Feeds used:
+             https://api.nuget.org/v3/index.json
+             C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\
+             C:\Program Files\dotnet\library-packs
+         All projects are up-to-date for restore.
+     1>Done Building Project "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (Restore target(s)).
+
+Build succeeded.
+
+       "C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj" (Restore target) (1) ->
+       (Restore target) -> 
+         C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj : warning NU1904: Package 'System.Drawing.Common' 4.7.0 has a known critical severity vulnerability, https://github.com/advisories/GHSA-rxg9-xrhp-64gj
+
+    1 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.27

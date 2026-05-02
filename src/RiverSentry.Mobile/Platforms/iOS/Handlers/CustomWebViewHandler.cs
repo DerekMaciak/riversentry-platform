@@ -13,6 +13,10 @@ public class CustomWebViewHandler : WebViewHandler
     {
         base.ConnectHandler(platformView);
 
+        // Allow inline media playback and auto-play (matches Android MediaPlaybackRequiresUserGesture=false)
+        platformView.Configuration.AllowsInlineMediaPlayback = true;
+        platformView.Configuration.MediaTypesRequiringUserActionForPlayback = WebKit.WKAudiovisualMediaTypes.None;
+
 #if DEBUG
         platformView.NavigationDelegate = new TrustingNavigationDelegate(platformView.NavigationDelegate);
 #endif
@@ -32,7 +36,7 @@ public class CustomWebViewHandler : WebViewHandler
         public void DidReceiveAuthenticationChallenge(
             WKWebView webView,
             NSUrlAuthenticationChallenge challenge,
-            Action<NSUrlSessionAuthChallengeDisposition, NSUrlCredential?> completionHandler)
+            Action<NSUrlSessionAuthChallengeDisposition, NSUrlCredential> completionHandler)
         {
             if (challenge.ProtectionSpace.AuthenticationMethod == NSUrlProtectionSpace.AuthenticationMethodServerTrust)
             {
@@ -46,7 +50,57 @@ public class CustomWebViewHandler : WebViewHandler
                 }
             }
 
-            completionHandler(NSUrlSessionAuthChallengeDisposition.PerformDefaultHandling, null);
+            completionHandler(NSUrlSessionAuthChallengeDisposition.PerformDefaultHandling, null!);
+        }
+
+        // Forward navigation lifecycle events to MAUI's inner delegate so Navigated fires
+        [Export("webView:didFinishNavigation:")]
+        public void DidFinishNavigation(WKWebView webView, WKNavigation navigation)
+        {
+            if (_innerDelegate is NSObject inner && inner.RespondsToSelector(new ObjCRuntime.Selector("webView:didFinishNavigation:")))
+            {
+                _innerDelegate.DidFinishNavigation(webView, navigation);
+            }
+        }
+
+        [Export("webView:didFailNavigation:withError:")]
+        public void DidFailNavigation(WKWebView webView, WKNavigation navigation, NSError error)
+        {
+            if (_innerDelegate is NSObject inner && inner.RespondsToSelector(new ObjCRuntime.Selector("webView:didFailNavigation:withError:")))
+            {
+                _innerDelegate.DidFailNavigation(webView, navigation, error);
+            }
+        }
+
+        [Export("webView:didFailProvisionalNavigation:withError:")]
+        public void DidFailProvisionalNavigation(WKWebView webView, WKNavigation navigation, NSError error)
+        {
+            if (_innerDelegate is NSObject inner && inner.RespondsToSelector(new ObjCRuntime.Selector("webView:didFailProvisionalNavigation:withError:")))
+            {
+                _innerDelegate.DidFailProvisionalNavigation(webView, navigation, error);
+            }
+        }
+
+        [Export("webView:didStartProvisionalNavigation:")]
+        public void DidStartProvisionalNavigation(WKWebView webView, WKNavigation navigation)
+        {
+            if (_innerDelegate is NSObject inner && inner.RespondsToSelector(new ObjCRuntime.Selector("webView:didStartProvisionalNavigation:")))
+            {
+                _innerDelegate.DidStartProvisionalNavigation(webView, navigation);
+            }
+        }
+
+        [Export("webView:decidePolicyForNavigationAction:decisionHandler:")]
+        public void DecidePolicy(WKWebView webView, WKNavigationAction navigationAction, Action<WKNavigationActionPolicy> decisionHandler)
+        {
+            if (_innerDelegate is NSObject inner && inner.RespondsToSelector(new ObjCRuntime.Selector("webView:decidePolicyForNavigationAction:decisionHandler:")))
+            {
+                _innerDelegate.DecidePolicy(webView, navigationAction, decisionHandler);
+            }
+            else
+            {
+                decisionHandler(WKNavigationActionPolicy.Allow);
+            }
         }
     }
 #endif

@@ -1,0 +1,3 @@
+  Determining projects to restore...
+C:\Program Files\dotnet\sdk\9.0.313\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.ImportWorkloads.targets(38,5): error NETSDK1147: To build this project, the following workloads must be installed: android [C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj::TargetFramework=net9.0-android]
+C:\Program Files\dotnet\sdk\9.0.313\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.ImportWorkloads.targets(38,5): error NETSDK1147: To install these workloads, run the following command: dotnet workload restore [C:\github\riversentry-platform\src\RiverSentry.Mobile\RiverSentry.Mobile.csproj::TargetFramework=net9.0-android]
