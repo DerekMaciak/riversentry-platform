@@ -142,7 +142,8 @@ public partial class AppWebView : ContentView
                 break;
             case "tab":
                 var family = query["family"];
-                await MainThread.InvokeOnMainThreadAsync(() => SwitchToTab(type, family));
+                Guid? tabDeviceId = Guid.TryParse(query["deviceId"], out var did) ? did : null;
+                await MainThread.InvokeOnMainThreadAsync(() => SwitchToTab(type, family, tabDeviceId));
                 break;
             case "device":
                 if (Guid.TryParse(type, out var deviceId))
@@ -162,7 +163,7 @@ public partial class AppWebView : ContentView
         }
     }
 
-    private static void SwitchToTab(string tabName, string? family = null)
+    private static void SwitchToTab(string tabName, string? family = null, Guid? deviceId = null)
     {
         // Map tab names from web to Shell tab indices
         var tabIndex = tabName switch
@@ -178,12 +179,12 @@ public partial class AppWebView : ContentView
         {
             tabBar.CurrentItem = tabBar.Items[tabIndex];
 
-            // If navigating to map with a family filter, select it on the MapPage
+            // If navigating to map with a family filter, select it and optionally zoom to device
             if (tabName == "map" && !string.IsNullOrEmpty(family))
             {
                 var mapPage = Application.Current?.Handler?.MauiContext?.Services
                     .GetService<Pages.MapPage>();
-                mapPage?.SelectFamily(family);
+                mapPage?.SelectFamily(family, deviceId);
             }
         }
     }

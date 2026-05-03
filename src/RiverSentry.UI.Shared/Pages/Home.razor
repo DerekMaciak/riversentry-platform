@@ -82,7 +82,7 @@
                         <div class="install-list">
                             @foreach (var device in _newDevices.Take(5))
                             {
-                                <div class="install-item install-item-clickable" @onclick="() => NavigateToMapWithFamily(device.FamilyName)">
+                                <div class="install-item install-item-clickable" @onclick="() => NavigateToMapWithDevice(device)">
                                     <div class="install-icon">
                                         <i class="oi oi-map-marker"></i>
                                     </div>
@@ -181,17 +181,18 @@
         }
     }
 
-    private async Task NavigateToMapWithFamily(string? familyName)
+    private async Task NavigateToMapWithDevice(DeviceDto device)
     {
-        if (string.IsNullOrEmpty(familyName)) return;
+        if (string.IsNullOrEmpty(device.FamilyName)) return;
 
         if (_isMobileShell)
         {
-            await JS.InvokeVoidAsync("switchNativeTab", "map", new { family = familyName });
+            await JS.InvokeVoidAsync("switchNativeTab", "map",
+                new { family = device.FamilyName, deviceId = device.Id.ToString() });
         }
         else
         {
-            Nav.NavigateTo($"/map?family={Uri.EscapeDataString(familyName)}");
+            Nav.NavigateTo($"/map?family={Uri.EscapeDataString(device.FamilyName)}&deviceId={device.Id}");
         }
     }
 

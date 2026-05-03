@@ -197,9 +197,10 @@ public partial class MapPage : ContentPage
 
     /// <summary>
     /// Selects a family in the picker by name, filtering the map to that location.
+    /// Optionally zooms to a specific device within that family.
     /// Called from the JS bridge when navigating from the dashboard.
     /// </summary>
-    public void SelectFamily(string familyName)
+    public void SelectFamily(string familyName, Guid? deviceId = null)
     {
         if (_families.Count == 0 || string.IsNullOrEmpty(familyName)) return;
 
@@ -210,5 +211,24 @@ public partial class MapPage : ContentPage
             FamilyPicker.SelectedIndex = index + 1;
             // OnFamilySelected will fire automatically from the picker change
         }
+
+        // Zoom to specific device if requested
+        if (deviceId.HasValue)
+        {
+            ZoomToDevice(deviceId.Value);
+        }
+    }
+
+    /// <summary>
+    /// Zooms the map to a specific device by ID.
+    /// </summary>
+    public void ZoomToDevice(Guid deviceId)
+    {
+        var device = _devices.FirstOrDefault(d => d.Id == deviceId);
+        if (device == null) return;
+
+        DeviceMap.MoveToRegion(MapSpan.FromCenterAndRadius(
+            new Location(device.Latitude, device.Longitude),
+            Distance.FromMeters(200)));
     }
 }

@@ -35,17 +35,8 @@
 </head>
 
 <body>
-    <!-- Custom Blazor reconnect UI — subtle banner instead of blocking modal -->
-    <div id="components-reconnect-modal" class="rs-reconnect-banner">
-        <div id="components-reconnect-show" class="rs-reconnect-show">
-            <span class="rs-reconnect-spinner"></span> Reconnecting&hellip;
-        </div>
-        <div id="components-reconnect-failed" class="rs-reconnect-failed">
-            Connection lost.
-            <button onclick="location.reload()">Reload</button>
-        </div>
-        <div id="components-reconnect-rejected" class="rs-reconnect-rejected"></div>
-    </div>
+    <!-- Blazor reconnect UI — hidden, reconnects silently in background -->
+    <div id="components-reconnect-modal" style="display:none"></div>
 
     <Routes />
 

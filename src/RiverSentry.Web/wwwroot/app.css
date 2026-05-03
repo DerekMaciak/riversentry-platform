@@ -102,81 +102,9 @@ h1:focus {
     content: "An error has occurred.";
 }
 
-/* ── Blazor reconnect banner (replaces default blocking modal) ── */
+/* ── Blazor reconnect — hidden entirely, reconnects silently in background ── */
 #components-reconnect-modal {
-    display: none;
-}
-
-#components-reconnect-modal.components-reconnect-show,
-#components-reconnect-modal.components-reconnect-failed,
-#components-reconnect-modal.components-reconnect-rejected {
-    display: block;
-}
-
-/* Hide inner divs by default, show the matching one */
-.rs-reconnect-show,
-.rs-reconnect-failed,
-.rs-reconnect-rejected { display: none; }
-
-.components-reconnect-show .rs-reconnect-show,
-.components-reconnect-failed .rs-reconnect-failed,
-.components-reconnect-rejected .rs-reconnect-rejected { display: flex; }
-
-.rs-reconnect-show,
-.rs-reconnect-failed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 99999;
-    padding: 6px 16px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.rs-reconnect-show {
-    background: rgba(210, 153, 34, 0.9);
-    color: #fff;
-}
-
-.rs-reconnect-failed {
-    background: rgba(248, 81, 73, 0.95);
-    color: #fff;
-}
-
-.rs-reconnect-failed button {
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.4);
-    color: #fff;
-    padding: 2px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.8rem;
-}
-
-/* Auto-reload when circuit is rejected (server restarted) */
-.rs-reconnect-rejected {
-    display: none;
-}
-
-.components-reconnect-rejected .rs-reconnect-rejected {
-    display: block;
-}
-
-@keyframes rs-spin {
-    to { transform: rotate(360deg); }
-}
-
-.rs-reconnect-spinner {
-    width: 14px;
-    height: 14px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: rs-spin 0.8s linear infinite;
+    display: none !important;
 }
 
 /* Card Component */
