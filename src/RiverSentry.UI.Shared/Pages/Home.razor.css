@@ -338,10 +338,27 @@
     align-items: center;
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--border-color);
+    gap: 0.75rem;
 }
 
 .family-item:last-child {
     border-bottom: none;
+}
+
+.family-item-clickable {
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    margin: -0.5rem;
+    transition: background-color 0.15s ease;
+}
+
+.family-item-clickable:hover {
+    background-color: rgba(74, 144, 217, 0.1);
+}
+
+.family-item-clickable:active {
+    background-color: rgba(74, 144, 217, 0.2);
 }
 
 .family-name {
