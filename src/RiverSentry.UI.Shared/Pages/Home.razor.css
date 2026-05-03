@@ -271,6 +271,29 @@
     gap: 0.75rem;
 }
 
+.install-item-clickable {
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    margin: -0.5rem;
+    transition: background-color 0.15s ease;
+}
+
+.install-item-clickable:hover {
+    background-color: rgba(74, 144, 217, 0.1);
+}
+
+.install-item-clickable:active {
+    background-color: rgba(74, 144, 217, 0.2);
+}
+
+.install-chevron {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
 .install-icon {
     width: 32px;
     height: 32px;

@@ -35,12 +35,49 @@
 </head>
 
 <body>
+    <!-- Custom Blazor reconnect UI — subtle banner instead of blocking modal -->
+    <div id="components-reconnect-modal" class="rs-reconnect-banner">
+        <div id="components-reconnect-show" class="rs-reconnect-show">
+            <span class="rs-reconnect-spinner"></span> Reconnecting&hellip;
+        </div>
+        <div id="components-reconnect-failed" class="rs-reconnect-failed">
+            Connection lost.
+            <button onclick="location.reload()">Reload</button>
+        </div>
+        <div id="components-reconnect-rejected" class="rs-reconnect-rejected"></div>
+    </div>
+
     <Routes />
 
     <!-- Leaflet JS for maps (local) -->
     <script src="lib/leaflet/leaflet.js"></script>
 
-    <script src="_framework/blazor.web.js"></script>
+    <script src="_framework/blazor.web.js" autostart="false"></script>
+    <script>
+        // Configure Blazor circuit reconnection for mobile stability
+        Blazor.start({
+            circuit: {
+                reconnectionOptions: {
+                    maxRetries: 30,
+                    retryIntervalMilliseconds: function (previousAttempts, maxRetries) {
+                        // Exponential backoff: 1s, 2s, 4s, 8s, then cap at 30s
+                        var delay = Math.min(1000 * Math.pow(2, previousAttempts), 30000);
+                        return delay;
+                    }
+                }
+            }
+        });
+
+        // Auto-reload when circuit is rejected (e.g. server restarted/redeployed)
+        new MutationObserver(function (mutations) {
+            var modal = document.getElementById('components-reconnect-modal');
+            if (modal && modal.classList.contains('components-reconnect-rejected')) {
+                location.reload();
+            }
+        }).observe(document.getElementById('components-reconnect-modal'), {
+            attributes: true, attributeFilter: ['class']
+        });
+    </script>
 
     <!-- Audio playback for alarm sounds -->
     <script>
@@ -75,9 +112,16 @@
             window.location.href = 'app://notification/' + type + '?device=' + encodeURIComponent(deviceName);
         };
 
-        // Bridge to native app for tab switching
-        window.switchNativeTab = function(tabName) {
-            window.location.href = 'app://tab/' + tabName;
+        // Bridge to native app for tab switching (optional params object)
+        window.switchNativeTab = function(tabName, params) {
+            var url = 'app://tab/' + tabName;
+            if (params) {
+                var qs = Object.keys(params).map(function(k) {
+                    return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+                }).join('&');
+                if (qs) url += '?' + qs;
+            }
+            window.location.href = url;
         };
     </script>
 </body>

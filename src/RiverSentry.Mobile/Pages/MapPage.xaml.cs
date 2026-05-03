@@ -195,4 +195,20 @@ public partial class MapPage : ContentPage
 
     private void OnCenterButtonClicked(object? sender, EventArgs e) => CenterMapOnDevices();
 
+    /// <summary>
+    /// Selects a family in the picker by name, filtering the map to that location.
+    /// Called from the JS bridge when navigating from the dashboard.
+    /// </summary>
+    public void SelectFamily(string familyName)
+    {
+        if (_families.Count == 0 || string.IsNullOrEmpty(familyName)) return;
+
+        var index = _families.FindIndex(f => f.Equals(familyName, StringComparison.OrdinalIgnoreCase));
+        if (index >= 0)
+        {
+            // Picker index is offset by 1 because index 0 is "All Devices"
+            FamilyPicker.SelectedIndex = index + 1;
+            // OnFamilySelected will fire automatically from the picker change
+        }
+    }
 }

@@ -20,6 +20,9 @@ builder.Services.AddScoped<IAlertBroadcaster, SignalRAlertBroadcaster>();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+// Health checks — used by Azure Always On and external monitors to keep the app warm
+builder.Services.AddHealthChecks();
+
 // CORS — allow web and mobile clients
 builder.Services.AddCors(options =>
 {
@@ -54,5 +57,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<AlertHub>("/hubs/alerts");
+app.MapHealthChecks("/health");
 
 app.Run();
