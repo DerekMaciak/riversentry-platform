@@ -84,7 +84,7 @@
                             {
                                 <div class="install-item install-item-clickable" @onclick="() => NavigateToMapWithDevice(device)">
                                     <div class="install-icon">
-                                        <i class="oi oi-map-marker"></i>
+                                        <img src="/_content/RiverSentry.UI.Shared/images/device.png" alt="Tower" class="install-tower-img" />
                                     </div>
                                     <div class="install-info">
                                         <span class="install-name">@device.LocationDescription</span>
@@ -122,6 +122,9 @@
                         @foreach (var family in _families.Take(8))
                         {
                             <div class="family-item family-item-clickable" @onclick="() => NavigateToMapWithFamily(family.Name)">
+                                <div class="install-icon">
+                                    <i class="oi oi-map-marker"></i>
+                                </div>
                                 <span class="family-name">@family.Name</span>
                                 <span class="family-count">@family.DeviceCount sensors</span>
                                 <span class="install-chevron"><i class="oi oi-chevron-right"></i></span>
