@@ -345,6 +345,7 @@
 }
 
 .family-name {
+    flex: 1;
     font-weight: 500;
     color: var(--text-primary);
 }
@@ -352,8 +353,8 @@
 .family-count {
     font-size: 0.8rem;
     color: var(--text-secondary);
-    margin-left: auto;
     text-align: right;
+    flex-shrink: 0;
 }
 
 .view-all-link {
