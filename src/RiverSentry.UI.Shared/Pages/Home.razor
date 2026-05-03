@@ -121,9 +121,10 @@
                     <div class="family-list">
                         @foreach (var family in _families.Take(8))
                         {
-                            <div class="family-item">
+                            <div class="family-item family-item-clickable" @onclick="() => NavigateToMapWithFamily(family.Name)">
                                 <span class="family-name">@family.Name</span>
                                 <span class="family-count">@family.DeviceCount sensors</span>
+                                <span class="install-chevron"><i class="oi oi-chevron-right"></i></span>
                             </div>
                         }
                     </div>
@@ -178,6 +179,21 @@
         else
         {
             Nav.NavigateTo($"/{tab}");
+        }
+    }
+
+    private async Task NavigateToMapWithFamily(string? familyName)
+    {
+        if (string.IsNullOrEmpty(familyName)) return;
+
+        if (_isMobileShell)
+        {
+            await JS.InvokeVoidAsync("switchNativeTab", "map",
+                new { family = familyName });
+        }
+        else
+        {
+            Nav.NavigateTo($"/map?family={Uri.EscapeDataString(familyName)}");
         }
     }
 

@@ -229,6 +229,6 @@ public partial class MapPage : ContentPage
 
         DeviceMap.MoveToRegion(MapSpan.FromCenterAndRadius(
             new Location(device.Latitude, device.Longitude),
-            Distance.FromMeters(200)));
+            Distance.FromMeters(1)));
     }
 }
