@@ -335,7 +335,6 @@
 
 .family-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--border-color);
@@ -353,6 +352,8 @@
 .family-count {
     font-size: 0.8rem;
     color: var(--text-secondary);
+    margin-left: auto;
+    text-align: right;
 }
 
 .view-all-link {
