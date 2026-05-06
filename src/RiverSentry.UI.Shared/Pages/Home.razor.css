@@ -205,6 +205,33 @@
     font-weight: 500;
 }
 
+/* Notification Banner */
+.notification-banner {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(245, 158, 11, 0.08) 100%);
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    border-left: 4px solid #eab308;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.notification-header {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #eab308;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.notification-text {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.4;
+}
+
 /* Dashboard Grid */
 .dashboard-grid {
     display: grid;

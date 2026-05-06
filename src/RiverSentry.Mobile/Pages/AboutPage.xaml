@@ -42,18 +42,12 @@
                        HorizontalOptions="Center"
                        Margin="0,24,0,0"/>
 
-                <!-- App Name -->
-                <Label Text="River Sentry"
-                       FontSize="28"
-                       FontAttributes="Bold"
-                       TextColor="#f0f6fc"
-                       HorizontalOptions="Center"/>
-
-                <!-- Tagline -->
-                <Label Text="Flood Warning System"
-                       FontSize="16"
+                <!-- Description -->
+                <Label Text="River Sentry is a flood warning system that monitors water levels and provides early alerts to protect lives and property."
+                       FontSize="14"
                        TextColor="#8b949e"
-                       HorizontalOptions="Center"/>
+                       HorizontalTextAlignment="Center"
+                       Margin="16,0"/>
 
                 <!-- Version -->
                 <Border BackgroundColor="#161b22"
@@ -74,23 +68,99 @@
                     </HorizontalStackLayout>
                 </Border>
 
-                <!-- Description -->
-                <Label Text="River Sentry monitors water levels and provides early flood warnings to protect lives and property."
-                       FontSize="14"
-                       TextColor="#8b949e"
-                       HorizontalTextAlignment="Center"
-                       Margin="16,0"/>
+                <!-- Divider -->
+                <BoxView HeightRequest="1"
+                         BackgroundColor="#30363d"
+                         Margin="32,8"/>
 
-                <!-- Website Link -->
-                <Label Text="www.riversentry.com"
-                       FontSize="14"
-                       TextColor="#58a6ff"
-                       TextDecorations="Underline"
-                       HorizontalOptions="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnWebsiteTapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                <!-- Support Section -->
+                <Border BackgroundColor="#161b22"
+                        Stroke="#30363d"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Support"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#f0f6fc"/>
+
+                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="12" ColumnSpacing="12">
+                            <!-- Website -->
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="🌐"
+                                   FontSize="20"
+                                   VerticalOptions="Center"/>
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="www.riversentry.com"
+                                   FontSize="14"
+                                   TextColor="#58a6ff"
+                                   TextDecorations="Underline"
+                                   VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnWebsiteTapped"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <!-- Email -->
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="📧"
+                                   FontSize="20"
+                                   VerticalOptions="Center"/>
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="sales@riversentry.com"
+                                   FontSize="14"
+                                   TextColor="#58a6ff"
+                                   TextDecorations="Underline"
+                                   VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnEmailTapped"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <!-- Phone -->
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   Text="📞"
+                                   FontSize="20"
+                                   VerticalOptions="Center"/>
+                            <Label Grid.Row="2" Grid.Column="1"
+                                   Text="(512) 934-4441"
+                                   FontSize="14"
+                                   TextColor="#58a6ff"
+                                   TextDecorations="Underline"
+                                   VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPhoneTapped"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Warranty Section -->
+                <Border BackgroundColor="#161b22"
+                        Stroke="#30363d"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="16">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Warranty"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#f0f6fc"/>
+                        <Label Text="For warranty information and support resources, visit:"
+                               FontSize="14"
+                               TextColor="#8b949e"/>
+                        <Label Text="www.riversentry.com/support"
+                               FontSize="14"
+                               TextColor="#58a6ff"
+                               TextDecorations="Underline">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnWarrantyTapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </VerticalStackLayout>
+                </Border>
 
                 <!-- Divider -->
                 <BoxView HeightRequest="1"

@@ -4,11 +4,14 @@
 
 <div class="alarm-player">
     <div class="alarm-section">
-        <h2>🔊 Device Alarm Sounds</h2>
-        <p class="alarm-description">
-            These are the sounds your River Sentry device will play when it detects rising water.
-            The device has a built-in speaker that will sound these alarms to alert anyone nearby.
-        </p>
+        <h2>🔊 Test Alarm Sounds</h2>
+        <details class="alarm-details">
+            <summary>What are these sounds?</summary>
+            <p class="alarm-description">
+                These are the sounds your River Sentry device will play when it detects rising water.
+                The device has a built-in speaker that will sound these alarms to alert anyone nearby.
+            </p>
+        </details>
 
         <div class="alarm-buttons">
             <button class="alarm-btn alarm-btn-warning @(_activeAlarm == AlarmType.FloodWarning ? "active" : "")"
@@ -26,17 +29,20 @@
     </div>
 
     <div class="notification-section">
-        <h2>📱 Phone Notification Simulation</h2>
-        <p class="alarm-description">
-            When your River Sentry device detects rising water, you'll also receive a notification
-            on your phone. Tap a button below to simulate what that notification will look and sound like.
-        </p>
-        <ul class="notification-features">
-            <li>✓ Notification appears in your notification bar</li>
-            <li>✓ Phone plays alarm sound</li>
-            <li>✓ Phone vibrates</li>
-            <li>✓ Works even when the app is in the background</li>
-        </ul>
+        <h2>📱 Simulate Phone Notification</h2>
+        <details class="alarm-details">
+            <summary>How do notifications work?</summary>
+            <p class="alarm-description">
+                When your River Sentry device detects rising water, you'll also receive a notification
+                on your phone. Tap a button below to simulate what that notification will look and sound like.
+            </p>
+            <ul class="notification-features">
+                <li>✓ Notification appears in your notification bar</li>
+                <li>✓ Phone plays alarm sound</li>
+                <li>✓ Phone vibrates</li>
+                <li>✓ Works even when the app is in the background</li>
+            </ul>
+        </details>
         <div class="alarm-buttons">
             <button class="alarm-btn alarm-btn-notification" @onclick="SendWaterNotification">
                 <span class="alarm-icon">🌊</span>

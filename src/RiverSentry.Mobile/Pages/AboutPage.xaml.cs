@@ -30,4 +30,19 @@ public partial class AboutPage : ContentPage
     {
         await Launcher.OpenAsync("https://www.riversentry.com");
     }
+
+    private async void OnEmailTapped(object? sender, EventArgs e)
+    {
+        await Launcher.OpenAsync("mailto:sales@riversentry.com");
+    }
+
+    private async void OnPhoneTapped(object? sender, EventArgs e)
+    {
+        await Launcher.OpenAsync("tel:+15129344441");
+    }
+
+    private async void OnWarrantyTapped(object? sender, EventArgs e)
+    {
+        await Launcher.OpenAsync("https://www.riversentry.com/support");
+    }
 }
